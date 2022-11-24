@@ -1,0 +1,91 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name=viewport
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Stylistic Sketchy</title>
+
+  <script src="js/jquery-1.7.min.js"></script>
+  <script src="js/modernizr.custom.34982.js"></script>
+
+  <script src="js/sketcher.js"></script>
+  <script src="js/trigonometry.js"></script>
+
+  <link rel="stylesheet" href="assets/bootstrap.css" />
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <script>
+    let sketcher = null;
+    let brush = null;
+    let brush2 = null;
+
+    
+    const pincel1 = function () {
+      
+    
+      brush = new Image();
+    brush.src = 'assets/brush4.png';
+      sketcher = new Sketcher("sketch", brush);
+      console.log("cambiando a pincel1");
+      console.log(brush.outerHTML);
+    }
+
+
+    // brush2 = new Image();
+    // brush.src = 'assets/brush2.png';
+    // brush.onload = function(){
+    // sketcher = new Sketcher( "sketch", brush );
+    // }
+
+
+
+    // console.log(brush2);
+    const pincel2 = function () {
+
+    brush2 = new Image();
+    brush2.src = 'assets/brush3.png';
+      sketcher2 = new Sketcher("sketch", brush2);
+      console.log("cambiando a pincel2")
+    }
+
+
+
+  </script>
+
+</head>
+
+<body onload="pincel1()" class="cursor1">
+  <div class="topbar-wrapper circularcursor" style="z-index: 5;">
+    <div class="topbar" data-dropdown="dropdown">
+      <div class="topbar-inner">
+        <div class="container">
+          <h3><a href="#">Stylistic Sketchy</a></h3>
+
+          <ul class="nav">
+            <li class="active"><a href="#">a sketch app using "brush" images</a></li>
+          </ul>
+
+          <ul class="nav secondary-nav">
+            <a href="#">
+              <input type="button" class="btn error" value="limpiar el canvas" onclick="sketcher.clear();" />
+            </a>
+            <!-- pincel de sketch -->
+            <a href="#">
+              <input type="button" value="sketch brush" onclick="pincel2()" />
+            </a>
+            <a href="#">
+              <input type="button" value="pencil" onclick="pincel1()"/>
+            </a>
+          </ul>
+        </div>
+      </div><!-- /topbar-inner -->
+    </div><!-- /topbar -->
+  </div>
+  <canvas id="sketch" width="1024px" height="1024px">
+</body>
+
+</html>
