@@ -1025,6 +1025,8 @@ Croquis.Tablet.isEraser = function () {
     return pen ? pen.isEraser : false;
 }
 
+
+
 Croquis.Stabilizer = function (down, move, up, level, weight,
                                x, y, pressure, interval) {
     interval = interval || 5;
@@ -1132,6 +1134,9 @@ Croquis.Random.LFSR113 = function (seed) {
     if (seed < 128) d = (seed + 128) | 0; else d = seed;
     this.get();
 }
+
+
+
 
 Croquis.Brush = function () {
     // math shortcut
