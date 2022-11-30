@@ -1,5 +1,4 @@
 // Initialize croquis
-
 var croquis = new Croquis();
 croquis.lockHistory();
 croquis.setCanvasSize(720, 720);
@@ -10,21 +9,78 @@ croquis.selectLayer(1);
 croquis.unlockHistory();
 croquis.setToolStabilizeLevel(10);
 croquis.setToolStabilizeWeight(0.35);
-croquis.setPaintingOpacity(0.2);
+croquis.setPaintingOpacity(1);
 
+
+const currentToolBrush  = {
+    name: 'brush', 
+    size: 1, 
+    opacity: 1, 
+  }
+// imagenes de los pinceles 
+let lineArtBrush = new Image();
+lineArtBrush.src = './assets/brushHard.png'
+
+let shadowBrush = new Image();
+shadowBrush.src = './assets/shadowBrush2.png'
+
+let sketchBrush = new Image();
+sketchBrush.src = './assets/pencil.png'
+
+//*--------------------- Initizalize brushes----------------*//
+//shadow brush 
 var brush = new Croquis.Brush();
-brush.setSize(21);
+brush.setSize(24);
 brush.setColor('#000');
 brush.setSpacing(0.2);
+brush.setImage(shadowBrush);
 
 
-var brush2 = new Croquis.Brush()
-// brush.setSize(15);
-// brush.setColor('#000');
-// brush.setSpacing(0.2);
+//sketch brush 
+let brush2 = new Croquis.Brush()
+brush2.setSize(3);
+brush2.setColor('#000');
+brush2.setSpacing(0.2);
+brush2.setImage(sketchBrush);
+
+//line art brush 
+let brush3 = new Croquis.Brush()
+brush3.setSize(6);
+brush3.setColor('#000');
+brush3.setSpacing(0.2);
+brush3.setImage(lineArtBrush);
 
 
-croquis.setTool(brush);
+croquis.setTool(brush2);
+currentToolBrush.name = 'brush2'
+
+
+//Brushes Buttons in interface
+let selectSketchBrush = document.getElementById('sketch-brush');
+selectSketchBrush.onclick = function () {
+    croquis.setTool(brush2);
+    currentToolBrush.name = 'brush2'
+    console.log(currentToolBrush.name);
+    
+}
+
+
+let selectLineArtBrush = document.getElementById('lineart-brush');
+selectLineArtBrush.onclick = function (){
+    croquis.setTool(brush3);
+    currentToolBrush.name = 'brush3'
+    console.log(currentToolBrush.name);
+}
+
+let selectShadowBrush = document.getElementById('shadow-brush');
+selectShadowBrush.onclick = function (){
+    croquis.setTool(brush);
+    currentToolBrush.name = 'brush'
+    console.log(currentToolBrush.name);
+    // croquis.setPaintingOpacity(0.3);
+}
+
+
 
 
 var croquisDOMElement = croquis.getDOMElement();
@@ -48,7 +104,7 @@ function canvasPointerDown(e) {
 function canvasPointerMove(e) {
     setPointerEvent(e);
     var pointerPosition = getRelativePosition(e.clientX, e.clientY);
-    croquis.move(pointerPosition.x, pointerPosition.y, );
+    croquis.move(pointerPosition.x, pointerPosition.y,);
 }
 
 //encima del canvas 
@@ -57,7 +113,7 @@ function canvasPointerUp(e) {
     var pointerPosition = getRelativePosition(e.clientX, e.clientY);
     if (pointerEventsNone)
         canvasArea.style.setProperty('cursor', 'none');
-    croquis.up(pointerPosition.x, pointerPosition.y, );
+    croquis.up(pointerPosition.x, pointerPosition.y,);
     if (/* e.pointerType === "pen" &&  */e.button == 5)
         setTimeout(function () { croquis.setPaintingKnockout(selectEraserCheckbox.checked) }, 30);//timeout should be longer than 20 (knockoutTickInterval in Croquis)
     document.removeEventListener('pointermove', canvasPointerMove);
@@ -83,25 +139,25 @@ fillButton.onclick = function () {
  */
 
 
-//brush images
-var circleBrush = document.getElementById('circle-brush');
-var brushImages = document.getElementsByClassName('brush-image');
-var currentBrush = circleBrush;
+// //brush images
+// var circleBrush = document.getElementById('circle-brush');
+// var brushImages = document.getElementsByClassName('brush-image');
+// var currentBrush = brushImages;
 
-Array.prototype.map.call(brushImages, function (brush) {
-    brush.addEventListener('pointerdown', brushImagePointerDown);
-});
+// Array.prototype.map.call(brushImages, function (brush) {
+//     brush.addEventListener('pointerdown', brushImagePointerDown);
+// });
 
-function brushImagePointerDown(e) {
-    var image = e.currentTarget;
-    currentBrush.className = 'brush-image';
-    image.className = 'brush-image on';
-    currentBrush = image;
-    if (image == circleBrush)
-        image = null;
-    brush.setImage(image);
-    updatePointer();
-}
+// function brushImagePointerDown(e) {
+//     var image = e.currentTarget;
+//     currentBrush.className = 'brush-image';
+//     image.className = 'brush-image on';
+//     currentBrush = image;
+//     if (image == circleBrush)
+//         image = null;
+//     brush.setImage(image);
+//     updatePointer();
+// }
 
 // checking pointer-events property support
 var pointerEventsNone = document.documentElement.style.pointerEvents !== undefined;
@@ -342,14 +398,14 @@ var selectEraserCheckbox =
     document.getElementById('select-eraser-checkbox');
 var brushSizeSlider = document.getElementById('brush-size-slider');
 var brushOpacitySlider = document.getElementById('brush-opacity-slider');
-var brushFlowSlider = document.getElementById('brush-flow-slider');
-var brushSpacingSlider = document.getElementById('brush-spacing-slider');
+// var brushFlowSlider = document.getElementById('brush-flow-slider');
+// var brushSpacingSlider = document.getElementById('brush-spacing-slider');
 // var brushAngleSlider = document.getElementById('brush-angle-slider');
 // var brushRotateToDirectionCheckbox = document.getElementById('brush-rotate-to-direction-checkbox');
 brushSizeSlider.value = brush.getSize();
 brushOpacitySlider.value = croquis.getPaintingOpacity() * 100;
-brushFlowSlider.value = brush.getFlow() * 100;
-brushSpacingSlider.value = brush.getSpacing() * 100;
+// brushFlowSlider.value = brush.getFlow() * 100;
+// brushSpacingSlider.value = brush.getSpacing() * 100;
 // brushAngleSlider.value = brush.getAngle();
 // brushRotateToDirectionCheckbox.checked = brush.getRotateToDirection();
 
@@ -375,12 +431,12 @@ brushOpacitySlider.onchange = function () {
     croquis.setPaintingOpacity(brushOpacitySlider.value * 0.01);
     setColor();
 }
-brushFlowSlider.onchange = function () {
-    brush.setFlow(brushFlowSlider.value * 0.01);
-}
-brushSpacingSlider.onchange = function () {
-    brush.setSpacing(brushSpacingSlider.value * 0.01);
-}
+// brushFlowSlider.onchange = function () {
+//     brush.setFlow(brushFlowSlider.value * 0.01);
+// }
+// brushSpacingSlider.onchange = function () {
+//     brush.setSpacing(brushSpacingSlider.value * 0.01);
+// }
 // brushAngleSlider.onchange = function () {
 //     brush.setAngle(brushAngleSlider.value);
 //     updatePointer();
@@ -434,7 +490,7 @@ downloadButton.onclick = function () {
     let can3 = document.getElementById('canvasExport');
     let ctx3 = can3.getContext('2d');
 
-   
+
     const image = document.getElementById('imageBackground');
 
     ctx3.drawImage(image, 0, 0);
@@ -449,4 +505,8 @@ downloadButton.onclick = function () {
     createEl.remove();
 
 }
+
+
+
+
 

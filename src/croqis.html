@@ -20,10 +20,10 @@
 
 
   <div id="brush-image-shelf">
-    <img src="assets/pencil.png" class="brush-image"></img>
-    <img src="assets/brushHard.png" class="brush-image"></img>
+    <img src="assets/pencil.png" class="brush-image" id="sketch-brush"></img>
+    <img src="assets/brushHard.png" class="brush-image" id="lineart-brush"></img>
+    <img src="assets/shadowBrush2.png" class="brush-image" id="shadow-brush"></img>
 
-    <div class="brush-image on" id="circle-brush"></div>
   </div>
   <hr>
   <button type="button" id="clear-button">erase all</button>
@@ -31,7 +31,7 @@
   <br>
 
   <!-- <div  class="cursor cursor--small"></div> -->
-  <div id="canvas-area">
+  <div class="" id="canvas-area">
   </div>
   <div id="right-side">
     <div id="color-picker">
@@ -57,12 +57,12 @@
       <span>Brush size: </span>
       <input id="brush-size-slider" type="range" min="1" max="100">
       <br>
-      <span>flow: </span>
+      <!-- <span>flow: </span>
       <input id="brush-flow-slider" type="range" min="0" max="100">
       <br>
       <span>spacing: </span>
       <input id="brush-spacing-slider" type="range" min="0" max="1000">
-      <br>
+      <br> -->
       <!-- <span>angle: </span>
       <input id="brush-angle-slider" type="range" min="0" max="360">
       <br>
@@ -89,8 +89,57 @@
 
 
   <!-- mejorar este script para la conveniencia del negocio -->
-  <script>
-  </script>
+  <!-- <script>
+
+var mousePosition;
+var offset = [0,0];
+var div;
+var isDown = false;
+
+let referenceImage = new Image();
+referenceImage.src = 'https://thumb-p8.xhcdn.com/a/SJq_bTfTfHWOj6f57kR4ow/000/428/970/088_1000.jpg'
+referenceImage.width = 400;
+// console.log(referenceImage);
+div = document.createElement("div");
+div.appendChild(referenceImage)
+div.style.position = "absolute";
+div.style.left = "0px";
+div.style.top = "0px";
+div.style.width = "100px";
+div.style.height = "100px";
+div.style.background = "red";
+div.style.color = "blue";
+// div.style.backgroundImage = referenceImage;
+
+document.body.appendChild(div);
+div.parentElement.removeChild(div);
+
+div.addEventListener('mousedown', function(e) {
+    isDown = true;
+    offset = [
+        div.offsetLeft - e.clientX,
+        div.offsetTop - e.clientY
+    ];
+}, true);
+
+document.addEventListener('mouseup', function() {
+    isDown = false;
+}, true);
+
+document.addEventListener('mousemove', function(event) {
+    event.preventDefault();
+    if (isDown) {
+        mousePosition = {
+    
+            x : event.clientX,
+            y : event.clientY
+    
+        };
+        div.style.left = (mousePosition.x + offset[0]) + 'px';
+        div.style.top  = (mousePosition.y + offset[1]) + 'px';
+    }
+}, true);
+  </script> -->
   <!--[if lt IE 10]>
     <script>
       // code from: http://stackoverflow.com/a/4448965/1711246
