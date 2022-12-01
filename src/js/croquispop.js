@@ -9,12 +9,11 @@ croquis.selectLayer(1);
 croquis.unlockHistory();
 croquis.setToolStabilizeLevel(10);
 croquis.setToolStabilizeWeight(0.35);
-croquis.setPaintingOpacity(1);
+// croquis.setPaintingOpacity(1);
 
 
-const currentToolBrush  = {
+let currentToolBrush  = {
     name: 'brush', 
-    size: 1, 
     opacity: 1, 
   }
 // imagenes de los pinceles 
@@ -22,44 +21,52 @@ let lineArtBrush = new Image();
 lineArtBrush.src = './assets/brushHard.png'
 
 let shadowBrush = new Image();
-shadowBrush.src = './assets/shadowBrush2.png'
+shadowBrush.src = './assets/shadowBrush3.png'
 
 let sketchBrush = new Image();
 sketchBrush.src = './assets/pencil.png'
 
 //*--------------------- Initizalize brushes----------------*//
 //shadow brush 
-var brush = new Croquis.Brush();
+var brush= new Croquis.Brush();
 brush.setSize(24);
 brush.setColor('#000');
-brush.setSpacing(0.2);
+brush.setSpacing(0.1);
 brush.setImage(shadowBrush);
+brush.setOpacityBrushTool(0.2); //just for change the layer opacity, 
 
-
+console.log(brush.getOpacityBrushTool());
 //sketch brush 
-let brush2 = new Croquis.Brush()
+var brush2 = new Croquis.Brush()
 brush2.setSize(3);
 brush2.setColor('#000');
 brush2.setSpacing(0.2);
 brush2.setImage(sketchBrush);
+brush2.setOpacityBrushTool(1);
 
 //line art brush 
-let brush3 = new Croquis.Brush()
+var brush3 = new Croquis.Brush()
 brush3.setSize(6);
 brush3.setColor('#000');
 brush3.setSpacing(0.2);
+brush3.setOpacityBrushTool(1);
 brush3.setImage(lineArtBrush);
 
 
-croquis.setTool(brush2);
-currentToolBrush.name = 'brush2'
+croquis.setTool(window[currentToolBrush.name]);
+croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
+
 
 
 //Brushes Buttons in interface
 let selectSketchBrush = document.getElementById('sketch-brush');
 selectSketchBrush.onclick = function () {
     croquis.setTool(brush2);
-    currentToolBrush.name = 'brush2'
+    currentToolBrush.name = 'brush2';
+    brushSizeSlider.value = brush2.getSize();
+    croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
+    brushOpacitySlider.value = brush2.getOpacityBrushTool() * 100;
+    
     console.log(currentToolBrush.name);
     
 }
@@ -68,7 +75,10 @@ selectSketchBrush.onclick = function () {
 let selectLineArtBrush = document.getElementById('lineart-brush');
 selectLineArtBrush.onclick = function (){
     croquis.setTool(brush3);
-    currentToolBrush.name = 'brush3'
+    currentToolBrush.name = 'brush3';
+    brushSizeSlider.value = brush3.getSize();
+    croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
+    brushOpacitySlider.value = brush3.getOpacityBrushTool() * 100;
     console.log(currentToolBrush.name);
 }
 
@@ -76,6 +86,9 @@ let selectShadowBrush = document.getElementById('shadow-brush');
 selectShadowBrush.onclick = function (){
     croquis.setTool(brush);
     currentToolBrush.name = 'brush'
+    brushSizeSlider.value = brush.getSize();
+    croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
+    brushOpacitySlider.value = brush.getOpacityBrushTool() * 100;
     console.log(currentToolBrush.name);
     // croquis.setPaintingOpacity(0.3);
 }
@@ -402,8 +415,8 @@ var brushOpacitySlider = document.getElementById('brush-opacity-slider');
 // var brushSpacingSlider = document.getElementById('brush-spacing-slider');
 // var brushAngleSlider = document.getElementById('brush-angle-slider');
 // var brushRotateToDirectionCheckbox = document.getElementById('brush-rotate-to-direction-checkbox');
-brushSizeSlider.value = brush.getSize();
-brushOpacitySlider.value = croquis.getPaintingOpacity() * 100;
+brushSizeSlider.value = window[currentToolBrush.name].getSize();
+brushOpacitySlider.value = window[currentToolBrush.name].getOpacityBrushTool()*100;
 // brushFlowSlider.value = brush.getFlow() * 100;
 // brushSpacingSlider.value = brush.getSpacing() * 100;
 // brushAngleSlider.value = brush.getAngle();
@@ -423,13 +436,21 @@ toolStabilizeWeightSlider.onchange = function () {
 selectEraserCheckbox.onchange = function () {
     croquis.setPaintingKnockout(selectEraserCheckbox.checked);
 }
+
+
+
 brushSizeSlider.onchange = function () {
-    brush.setSize(brushSizeSlider.value);
-    updatePointer();
+    window[currentToolBrush.name].setSize(brushSizeSlider.value);
+    currentToolBrush.size = brushSizeSlider.value;
+    console.log(currentToolBrush.size);
+    // updatePointer();
 }
 brushOpacitySlider.onchange = function () {
-    croquis.setPaintingOpacity(brushOpacitySlider.value * 0.01);
-    setColor();
+    
+    window[currentToolBrush.name].setOpacityBrushTool(brushOpacitySlider.value * 0.01);
+    console.log(window[currentToolBrush.name].getOpacityBrushTool())
+    croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
+    // setColor();
 }
 // brushFlowSlider.onchange = function () {
 //     brush.setFlow(brushFlowSlider.value * 0.01);
@@ -444,6 +465,16 @@ brushOpacitySlider.onchange = function () {
 // brushRotateToDirectionCheckbox.onchange = function () {
 //     brush.setRotateToDirection(brushRotateToDirectionCheckbox.checked);
 // }
+
+
+console.log(brush.getColor());
+
+
+
+
+
+
+
 
 // Platform variables
 var mac = navigator.platform.indexOf('Mac') >= 0;
@@ -506,7 +537,13 @@ downloadButton.onclick = function () {
 
 }
 
+/* 
+var movie = "test";
+var movieId = 1;
+localStorage[movie + movieId] = "Gaaa"
 
+alert(localStorage['test1'])
+ */
 
 
 

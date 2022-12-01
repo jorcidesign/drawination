@@ -1189,6 +1189,14 @@ Croquis.Brush = function () {
         flow = value;
         transformedImageIsDirty = true;
     }
+    var opacityBrushTool = 1; 
+    this.getOpacityBrushTool = function(){
+        return opacityBrushTool; 
+    }
+    this.setOpacityBrushTool = function(value){
+        opacityBrushTool = (value < 0.01) ? 0.01 : value;
+    }
+
     var size = 10;
     this.getSize = function () {
         return size;
