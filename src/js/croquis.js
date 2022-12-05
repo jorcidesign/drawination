@@ -1242,6 +1242,13 @@ Croquis.Brush = function () {
     this.setTangentSpread = function (value) {
         tangentSpread = value;
     }
+    let scaleFactorBrush = 1;
+    this.setScaleFactor = function(value){
+        scaleFactorBrush = value; 
+    }
+    this.getScaleFactor = function(){
+        return scaleFactorBrush;    
+    }
     var image = null;
     var transformedImage = null;
     var transformedImageIsDirty = true;
@@ -1273,6 +1280,7 @@ Croquis.Brush = function () {
     var drawFunction = drawCircle;
     var reserved = null;
     var dirtyRect;
+    
     function spreadRandom() {
         return random() - 0.5;
     }
@@ -1351,7 +1359,10 @@ Croquis.Brush = function () {
                         y - (boundHeight * 0.5),
                         boundWidth, boundHeight);
     }
-    this.down = function(x, y, scale) {
+    this.down = function(x, y, scale ,scaleFactor) {
+        scaleFactor = scaleFactorBrush;
+        x = x/scaleFactor;
+        y = y/scaleFactor;
         if (context == null)
             throw 'brush needs the context';
         dir = 0;
@@ -1366,8 +1377,14 @@ Croquis.Brush = function () {
         lastX = prevX = x;
         lastY = prevY = y;
         prevScale = scale;
+        console.log(x,y,scale);
+        
+
     }
     this.move = function(x, y, scale) {
+        scaleFactor = scaleFactorBrush;
+        x = x/scaleFactor;
+        y = y/scaleFactor;
         if (context == null)
             throw 'brush needs the context';
         if (scale <= 0) {
@@ -1425,3 +1442,5 @@ Croquis.Brush = function () {
         return dirtyRect;
     }
 }
+
+

@@ -34,11 +34,11 @@
   <!-- <div  class="cursor cursor--small"></div> -->
   <div id="right-side">
     <div id="color-picker">
-      <!-- <div id="color-picker-sb">
-        </div> -->
+      <div id="color-picker-sb">
+        </div>
 
-      <!-- <span>hue: </span>
-      <input id="color-picker-hue-slider" type="range" min="0" max="360"> -->
+      <span>hue: </span>
+      <input id="color-picker-hue-slider" type="range" min="0" max="360">
       <br>
       <span>opacity: </span>
       <input id="brush-opacity-slider" orien type="range" min="0" max="100">
@@ -82,8 +82,8 @@
       </div>
     </div>
   </div>
-  </div>
-
+  
+  <!-- <div id="draggable" class="no-select">drag me</div> -->
 
   <style>
     body {
@@ -121,63 +121,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.1.1/gsap.min.js"></script>
 
   <script src="js/croquispop.js"></script>
-  <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
 
 
 
   <!-- mejorar este script para la conveniencia del negocio -->
-
-  <noscript>
-    var mousePosition;
-    var offset = [0,0];
-    var div;
-    var isDown = false;
-
-    div = document.createElement("div");
-    div.style.position = "absolute";
-    div.style.left = "0px";
-    div.style.top = "0px";
-    div.style.width = "500px";
-    div.style.height = "500px";
-    div.style.background = "red";
-    div.style.color = "blue";
-
-    document.body.appendChild(div);
-
-    div.addEventListener('mousedown', function(e) {
-    isDown = true;
-    offset = [
-    div.offsetLeft - e.clientX,
-    div.offsetTop - e.clientY
-    ];
-    }, true);
-
-    document.addEventListener('mouseup', function() {
-    isDown = false;
-    }, true);
-
-    document.addEventListener('mousemove', function(event) {
-    event.preventDefault();
-    if (isDown) {
-    mousePosition = {
-
-    x : event.clientX,
-    y : event.clientY
-
-    };
-    div.style.left = (mousePosition.x + offset[0]) + 'px';
-    div.style.top = (mousePosition.y + offset[1]) + 'px';
-    }
-    }, true);
-  </noscript>
-
-
   <!--[if lt IE 10]>
     <script>
     
     </script>
     <![endif]-->
   <script>
+    // import {croquispop} from croquispop.js;
     const hasPositionChanged = ({ pos, prevPos }) => pos !== prevPos;
 
     const valueInRange = ({ minScale, maxScale, scale }) => scale <= maxScale && scale >= minScale;
@@ -222,10 +176,15 @@
         const translate = getTranslate({ scale, minScale, maxScale });
         const translateX = translate({ pos: originX, prevPos: state.transformation.originX, translate: state.transformation.translateX });
         const translateY = translate({ pos: originY, prevPos: state.transformation.originY, translate: state.transformation.translateY });
-
+        
         state.element.style.transformOrigin = `${newOriginX}px ${newOriginY}px`;
         state.element.style.transform = getMatrix({ scale: newScale, translateX, translateY });
         state.transformation = { originX: newOriginX, originY: newOriginY, translateX, translateY, scale: newScale };
+        console.log(newScale);
+        brush.setScaleFactor(newScale);
+        brush2.setScaleFactor(newScale);
+        brush3.setScaleFactor(newScale);
+        
       }
     });
 
@@ -248,17 +207,17 @@
 
     const container = document.getElementById("container");
     const instance = renderer({ scaleSensitivity: 50, minScale: .1, maxScale: 30, element: container.children[0] });
-    // container.addEventListener("wheel", (event) => {
-    //   if (!event.ctrlKey) {
-    //     return;
-    //   }
-    //   event.preventDefault();
-    //   instance.zoom({
-    //     deltaScale: Math.sign(event.deltaY) > 0 ? -1 : 1,
-    //     x: event.pageX,
-    //     y: event.pageY
-    //   });
-    // });
+    container.addEventListener("wheel", (event) => {
+      if (!event.ctrlKey) {
+        return;
+      }
+      event.preventDefault();
+      instance.zoom({
+        deltaScale: Math.sign(event.deltaY) > 0 ? -1 : 1,
+        x: event.pageX,
+        y: event.pageY
+      });
+    });
     // container.addEventListener("dblclick", () => {
     //   instance.panTo({
     //     originX: 0,
@@ -276,8 +235,58 @@
         originY: event.movementY
       });
     })
+    
 
   </script>
+
+<!-- <script>
+  var mousePosition;
+  var offset = [0,0];
+  var divDragable;
+  var isDown = false;
+
+  let referenceImage = new Image();
+  referenceImage.src = 'https://static.wixstatic.com/media/eadfd5_51265457f03745b2a2bbdbf8a78247e9~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_90/file.jpg';
+  referenceImage.style.scale = 0.7;
+
+  divDragable = document.createElement("div");  
+  divDragable.style.position = "absolute";
+  divDragable.style.left = "0px";
+  divDragable.style.top = "0px";
+  divDragable.style.scale = 0.7;
+  // divDragable.style.background = "blue";
+  // divDragable.style.color = "blue";
+
+  document.body.appendChild(divDragable);
+  divDragable.appendChild(referenceImage);
+
+  divDragable.addEventListener('mousedown', function(e) {
+  isDown = true;
+  offset = [
+  divDragable.offsetLeft - e.clientX,
+  divDragable.offsetTop - e.clientY
+  ];
+  }, true);
+
+  document.addEventListener('mouseup', function() {
+  isDown = false;
+  }, true);
+
+  document.addEventListener('mousemove', function(event) {
+  event.preventDefault();
+  if (isDown) {
+  mousePosition = {
+
+  x : event.clientX,
+  y : event.clientY
+
+  };
+  divDragable.style.left = (mousePosition.x + offset[0]) + 'px';
+  divDragable.style.top = (mousePosition.y + offset[1]) + 'px';
+  }
+  }, true);
+</script> -->
+
 </body>
 
 </html>

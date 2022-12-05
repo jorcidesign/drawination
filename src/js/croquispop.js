@@ -321,7 +321,7 @@ console.log(gsap)
 
 
 //color picker
-/* var colorPickerHueSlider =
+ var colorPickerHueSlider =
     document.getElementById('color-picker-hue-slider');
 var colorPickerSb = document.getElementById('color-picker-sb');
 var colorPickerHSBRect = new HSBRect(150, 150);
@@ -401,7 +401,88 @@ colorPickerChecker.style.backgroundImage = 'url(' +
     backgroundCheckerImage.toDataURL() + ')';
 var colorPickerColor = document.getElementById('color-picker-color');
 
-pickColor(0, 150); */
+pickColor(0, 150); 
+
+let shouldHandleKeyDown = true;
+document.addEventListener("keydown", function(event) {
+
+    if (event.code === "KeyQ"){
+        if (!shouldHandleKeyDown) return;
+        brushPointerContainer.style.display = 'none';
+
+        // Handle "down"
+      
+    shouldHandleKeyDown = false;
+   
+    } 
+  });
+
+  document.addEventListener('keyup', (event) => {
+  
+    // As the user releases the Ctrl key, the key is no longer active,
+    // so event.ctrlKey is false.
+    if (event.code === "KeyQ") {
+        const resultElement = document.getElementById('result');
+
+        if (!window.EyeDropper) {
+          resultElement.textContent = 'Your browser does not support the EyeDropper API';
+          return;
+        }
+      
+        const eyeDropper = new EyeDropper();
+      
+        eyeDropper.open().then((result) => {
+          resultElement.textContent = result.sRGBHex;
+          resultElement.style.backgroundColor = result.sRGBHex;
+          console.log(result.sRGBHex);
+          
+        }).catch((e) => {
+          resultElement.textContent = e;
+        });
+        shouldHandleKeyDown = true;
+        setTimeout(() => {
+            brushPointerContainer.style.display = 'block';
+;
+          }, 1000);
+    }
+  }, false);
+
+
+// document.addEventListener("mousedown", (event) => {
+//     // if (!event.shiftKey) {
+//     //   return;
+//     // }
+
+
+//     if (event.altKey) {
+//       // alert("The ALT key was pressed!");
+//       const resultElement = document.getElementById('result');
+
+//       if (!window.EyeDropper) {
+//         resultElement.textContent = 'Your browser does not support the EyeDropper API';
+//         return;
+//       }
+
+//       const eyeDropper = new EyeDropper();
+//       const abortController = new AbortController();
+
+//       eyeDropper.open({ signal: abortController.signal }).then((result) => {
+//         resultElement.textContent = result.sRGBHex;
+//         resultElement.style.backgroundColor = result.sRGBHex;
+//       }).catch((e) => {
+//         resultElement.textContent = e;
+//       });
+
+//       // setTimeout(() => {
+//       //   abortController.abort();
+//       // }, 2000);
+//     } else {
+//       // alert("The ALT key was NOT pressed!");
+//     }
+
+//   })
+
+
 
 //stabilizer shelf
 // var toolStabilizeLevelSlider =
@@ -519,7 +600,8 @@ downloadButton.onclick = function () {
     const canvasDownload = document.querySelectorAll('.croquis-layer-canvas');//obtener las canvas layers del croquis
     // let can = canvasDownload.item(0);//layer 1 (whiteBackground)
     let can2 = canvasDownload.item(0);//layer 2 (painting)
-
+    // let ctx2 = can2.getContext('2d');
+    // ctx2.globalCompositeOperation = "multiply";
     //merge layers in other hidden canvas for export 
     let can3 = document.getElementById('canvasExport');
     let ctx3 = can3.getContext('2d');
@@ -528,7 +610,9 @@ downloadButton.onclick = function () {
     const image = document.getElementById('imageBackground');
 
     ctx3.drawImage(image, 0, 0);
+    ctx3.globalCompositeOperation = "multiply";
     ctx3.drawImage(can2, 0, 0);
+    ctx3.globalCompositeOperation = "normal";
 
     //export 
     let canvasUrl = can3.toDataURL("image/png", 0.5);
@@ -549,9 +633,9 @@ zoomIn.onclick = function () {
     let canvas2 = canvasDownload.item(0);//layer 2 (painting)
     let ctx2 = canvas2.getContext('2d');
     var target = new Image();
-    
+
     target.src = canvas2.toDataURL();
-   
+
 /*     const resizedDataUri = resizeImage(target, 300);
     // targetResize.src = resizeImage(target,1080);
     target.src = resizedDataUri;
@@ -560,13 +644,13 @@ zoomIn.onclick = function () {
     canvas1.width = 720;
     canvas1.height = 720;
 
-    
+
     ctx.drawImage(canvas2, 0, 0, 1080, 1080);
-    
+
     croquis.clearLayer()
     document.getElementById('brush-shelf').appendChild(canvas1);
 
-    ctx2.drawImage(canvas1,0,0)
+    ctx2.drawImage(canvas1, 0, 0)
     // ctx2.drawImage(canvas1,0,0,1080,1080);
     // console.log(targetResize);
     // croquis.clearLayer();
@@ -575,55 +659,35 @@ zoomIn.onclick = function () {
 }
 
 
-function resizeImage (imgEl, wantedWidth) {
+function resizeImage(imgEl, wantedWidth) {
     const canvas1 = document.createElement('canvas');
     const ctx = canvas1.getContext('2d');
-  
+
     const aspect = imgEl.width / imgEl.height;
-  
+
     canvas1.width = wantedWidth;
     canvas1.height = wantedWidth / aspect;
-  
+
     ctx.drawImage(imgEl, 0, 0, canvas1.width, canvas1.height);
     return canvas1.toDataURL();
-  }
+}
 
 
-  let div = document.querySelectorAll('.croquis-layer-canvas').item(0);
-  let div2 = document.querySelectorAll('.croquis-painting-canvas').item(0);
-  
-  document.addEventListener('keyup', event => {
-    if (event.code === 'KeyW') {
-        
-      let pointerPosition = getRelativePosition(event.clientX, event.clientY);
-      let w = div.clientWidth;
-      let w2 = w * 1.25;//scale factor 
-      console.log(w2);
-      div.style.setProperty('width', w2 + 'px');
-      div.style.setProperty('height', w2 + 'px');
-      div2.style.setProperty('width', w2 + 'px');
-      div2.style.setProperty('height', w2 + 'px');
-   
-
-      
-    }
-  })
+let div = document.querySelectorAll('.croquis-layer-canvas').item(0);
 
 
-  document.addEventListener('keyup', event => {
-    if (event.code === 'KeyQ') {
+function drawRect(){
+    let div2 = document.querySelectorAll('.croquis-painting-canvas').item(0);
+    var ctxTest = div2.getContext("2d");
+    ctxTest.beginPath();
+    ctxTest.rect(20, 20, 150, 100);
+    ctxTest.stroke();
 
-      let w = div.clientWidth;
-      let w2 = w * 0.8;
-      console.log(w2);
-      div.style.setProperty('width', w2 + 'px');
-      div.style.setProperty('height', w2 + 'px');
-      div2.style.setProperty('width', w2 + 'px');
-      div2.style.setProperty('height', w2 + 'px');
+}
 
-    //   brush.move(0,0,w2);
-    }
-  })
+// export {brush}
+
+
 
 
 // 
