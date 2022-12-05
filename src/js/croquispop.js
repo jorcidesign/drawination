@@ -321,7 +321,7 @@ console.log(gsap)
 
 
 //color picker
- var colorPickerHueSlider =
+var colorPickerHueSlider =
     document.getElementById('color-picker-hue-slider');
 var colorPickerSb = document.getElementById('color-picker-sb');
 var colorPickerHSBRect = new HSBRect(150, 150);
@@ -342,9 +342,9 @@ function setColor() {
         colorPickerThumb.style.getPropertyValue('margin-top'));
     s = (s + halfThumbRadius) / sbSize;
     b = 1 - ((b + halfThumbRadius + sbSize) / sbSize);
-    brush.setColor(tinycolor({h: h, s:s, v: b}).toRgbString());
+    brush.setColor(tinycolor({ h: h, s: s, v: b }).toRgbString());
     var a = croquis.getPaintingOpacity();
-    var color = tinycolor({h: h, s:s, v: b, a: a});
+    var color = tinycolor({ h: h, s: s, v: b, a: a });
     colorPickerColor.style.backgroundColor = color.toRgbString();
     colorPickerColor.textContent = color.toHexString();
 }
@@ -378,7 +378,7 @@ function pickColor(x, y) {
     colorPickerThumb.style.setProperty('margin-top',
         (minmax(y, 0, sbSize) - (sbSize + halfThumbRadius)) + 'px');
     colorPickerThumb.style.setProperty('border-color',
-        (y < sbSize * 0.5)? '#000' : '#fff');
+        (y < sbSize * 0.5) ? '#000' : '#fff');
     setColor();
 }
 colorPickerSb.addEventListener('pointerdown', colorPickerPointerDown);
@@ -401,51 +401,54 @@ colorPickerChecker.style.backgroundImage = 'url(' +
     backgroundCheckerImage.toDataURL() + ')';
 var colorPickerColor = document.getElementById('color-picker-color');
 
-pickColor(0, 150); 
+pickColor(0, 150);
 
 let shouldHandleKeyDown = true;
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
 
-    if (event.code === "KeyQ"){
+    if (event.code === "KeyQ") {
         if (!shouldHandleKeyDown) return;
         brushPointerContainer.style.display = 'none';
 
         // Handle "down"
-      
-    shouldHandleKeyDown = false;
-   
-    } 
-  });
 
-  document.addEventListener('keyup', (event) => {
-  
+        shouldHandleKeyDown = false;
+
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+
     // As the user releases the Ctrl key, the key is no longer active,
     // so event.ctrlKey is false.
     if (event.code === "KeyQ") {
         const resultElement = document.getElementById('result');
 
         if (!window.EyeDropper) {
-          resultElement.textContent = 'Your browser does not support the EyeDropper API';
-          return;
+            resultElement.textContent = 'Your browser does not support the EyeDropper API';
+            return;
         }
-      
+
         const eyeDropper = new EyeDropper();
-      
-        eyeDropper.open().then((result) => {
-          resultElement.textContent = result.sRGBHex;
-          resultElement.style.backgroundColor = result.sRGBHex;
-          console.log(result.sRGBHex);
-          
-        }).catch((e) => {
-          resultElement.textContent = e;
-        });
+
+
+        eyeDropper.open()
+            .then(res => {
+                if (res && res.sRGBHex) {
+                    // showResult(res.sRGBHex);
+                    brush.setColor(res.sRGBHex);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
         shouldHandleKeyDown = true;
         setTimeout(() => {
             brushPointerContainer.style.display = 'block';
-;
-          }, 1000);
+            ;
+        }, 1000);
     }
-  }, false);
+}, false);
 
 
 // document.addEventListener("mousedown", (event) => {
@@ -615,7 +618,7 @@ downloadButton.onclick = function () {
     ctx3.globalCompositeOperation = "normal";
 
     //export 
-    let canvasUrl = can3.toDataURL("image/png", 0.5);
+    let canvasUrl = can3.toDataURL("image/jpeg", 0.8);
     const createEl = document.createElement('a');
     createEl.href = canvasUrl;
     createEl.download = "MySketch";
@@ -676,7 +679,7 @@ function resizeImage(imgEl, wantedWidth) {
 let div = document.querySelectorAll('.croquis-layer-canvas').item(0);
 
 
-function drawRect(){
+function drawRect() {
     let div2 = document.querySelectorAll('.croquis-painting-canvas').item(0);
     var ctxTest = div2.getContext("2d");
     ctxTest.beginPath();
