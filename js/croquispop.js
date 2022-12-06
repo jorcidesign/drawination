@@ -5,7 +5,7 @@ window.onload = function() {
     }
 }
 
-þ
+
 // Initialize croquis
 var myDivContainer = document.querySelector('.ar-1-1')
 var clientHeight = myDivContainer.offsetHeight;
