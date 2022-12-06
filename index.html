@@ -27,26 +27,26 @@
       <div class="navbar-nav p-2">
         <a class="navbar-brand" href="#" id="clear-button">Erase all</a>
         <div class="vr"></div>
-        <a class="navbar-brand" >Reference image</a>
+        <a class="navbar-brand">Reference image</a>
         <!-- <a class="nav-link active" aria-current="page" href="#" id="clear-button">Home</a> -->
-        
+
 
 
       </div>
       <div class="navbar-nav p-4">
-        <a class="navbar-brand" >
+        <a class="navbar-brand">
           <input class="form-range" id="brush-size-slider" orient type="range" min="1" max="100">
         </a>
         <a class="navbar-brand">
-    
+
           <input class="form-range" id="brush-opacity-slider" orien type="range" min="0" max="100">
         </a>
-    
+
       </div>
 
       <div class="navbar-nav p-4">
         <a class="navbar-brand p-1" href="#" >
-          <i class="fa-solid fa-pencil"` id="sketch-brush"></i>
+          <i class="fa-solid fa-pencil" ` id="sketch-brush"></i>
           <!-- <img src="assets/pencil.png" class="brush-image" id="sketch-brush"></img> -->
         </a>
         <a class="navbar-brand p-1" href="#">
@@ -58,7 +58,7 @@
           <!-- <img src="assets/shadowBrush3.png" class="brush-image" id="shadow-brush"></img> -->
         </a>
         <a class="navbar-brand p-1" href="#">
-         
+
           <div class="form-check form-switch">
             <input class="form-check-input" id="select-eraser-checkbox" type="checkbox">
             <label class="form-check-label" for="flexSwitchCheckDefault">Eraser</label>
@@ -67,13 +67,13 @@
       </div>
 
       <div class="navbar-nav p-4">
-        
-     
-        
+
+
+
         <!-- <a class="nav-link" href="#" >Pencil</a>
         <a class="nav-link" href="#" >Ink</a>
         <a class="nav-link disabled">Brush</a> -->
-    
+
       </div>
 
 
@@ -81,12 +81,12 @@
       <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> -->
-      
+
       <div class="navbar-nav">
 
-<a href="#"><button type="button" id="download">Download Canvas</button></a>
+        <a class="navbar-brand p-1" href="#" id="download"><i class="fa-solid fa-download"></i></a>
 
-     
+
       </div>
 
     </div>
@@ -302,7 +302,43 @@
     //     scale: 1,
     //   });
     // });
-    container.addEventListener("mousemove", (event) => {
+
+    let shouldHandleKeyDown = true;
+document.addEventListener("keydown", function (event) {
+
+    if (event.shiftKey) {
+        if (!shouldHandleKeyDown) return;
+        croquisDOMElement.removeEventListener('pointerdown', canvasPointerDown);
+
+        // Handle "down"
+
+        shouldHandleKeyDown = false;
+
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+
+    // As the user releases the Ctrl key, the key is no longer active,
+    // so event.ctrlKey is false.
+    croquisDOMElement.addEventListener('pointerdown', canvasPointerDown);
+    shouldHandleKeyDown = true;
+
+});
+
+
+    function containerPointerDown(event) {
+      setPointerEvent(event);
+      if (!event.shiftKey) {
+        return;
+      }
+      container.addEventListener('pointermove', containerPointerMove);
+      container.addEventListener('pointerup', containerPointerUp);
+    }
+    // e.pointerType === "pen" ? e.pressure : 1
+    //al mover el puntero 
+    function containerPointerMove(event) {
+      setPointerEvent(event);
       if (!event.shiftKey) {
         return;
       }
@@ -311,7 +347,23 @@
         originX: event.movementX,
         originY: event.movementY
       });
-    })
+    }
+
+    //encima del canvas 
+    function containerPointerUp(e) {
+      setPointerEvent(e);
+     
+      container.removeEventListener('pointermove', containerPointerMove);
+      container.removeEventListener('pointerup', containerPointerUp);
+    }
+ 
+    container.addEventListener('pointerdown', containerPointerDown);
+
+
+
+    // container.addEventListener("pointermove", (event) => {
+   
+    // })
 
 
   </script>
