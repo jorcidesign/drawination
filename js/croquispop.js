@@ -13,7 +13,7 @@ croquis.setToolStabilizeWeight(0.35);
 // croquis.setPaintingOpacity(1);
 
 let currentToolBrush = {
-    name: 'brush',
+    name: 'brush2',
     opacity: 1,
 }
 // imagenes de los pinceles 
@@ -39,7 +39,7 @@ console.log(brush.getOpacityBrushTool());
 //sketch brush 
 var brush2 = new Croquis.Brush()
 brush2.setSize(3);
-brush2.setColor('#000');
+brush2.setColor('red');
 brush2.setSpacing(0.2);
 brush2.setImage(sketchBrush);
 brush2.setOpacityBrushTool(1);
@@ -252,156 +252,7 @@ function croquisPointerMove(e) {
 
 console.log(gsap)
 
-// // const cursorOuter = document.querySelector(".cursor--large");
-// const cursorInner = document.querySelector(".cursor--small");
-// let isStuck = false;
-// let mouse = {
-// 	x: -100,
-// 	y: -100,
-// };
 
-// // Just in case you need to scroll
-// // let scrollHeight = 0;
-// // window.addEventListener('scroll', function(e) {
-// // 	scrollHeight = window.scrollY
-// // })
-
-// let cursorOuterOriginalState = {
-// 	width: cursorInner.getBoundingClientRect().width,
-// 	height: cursorInner.getBoundingClientRect().height,
-// };
-// const buttons = document.querySelectorAll("main button");
-
-// buttons.forEach((button) => {
-// 	button.addEventListener("pointerenter", handleMouseEnter);
-// 	button.addEventListener("pointerleave", handleMouseLeave);
-
-// });
-
-// document.body.addEventListener("pointermove", updateCursorPosition);
-// document.body.addEventListener("pointerdown", () => {
-// 	gsap.to(cursorInner, 0.15, {
-// 		scale: 1.5,
-// 	});
-// });
-// document.body.addEventListener("pointerup", () => {
-// 	gsap.to(cursorInner, 0.15, {
-// 		scale: 1,
-// 	});
-// });
-
-// function updateCursorPosition(e) {
-// 	mouse.x = e.pageX;
-// 	mouse.y = e.pageY;
-// }
-
-// function updateCursor() {
-// 	gsap.set(cursorInner, {
-// 		x: mouse.x,
-// 		y: mouse.y,
-// 	});
-
-// 	if (!isStuck) {
-// 		gsap.to(cursorInner, {
-// 			duration: 0.15,
-// 			x: mouse.x - cursorOuterOriginalState.width/2,
-// 			y: mouse.y - cursorOuterOriginalState.height/2,
-// 		});
-// 	}
-
-// 	requestAnimationFrame(updateCursor);
-// }
-
-// updateCursor();
-
-
-
-
-
-
-
-//color picker
-var colorPickerHueSlider =
-    document.getElementById('color-picker-hue-slider');
-var colorPickerSb = document.getElementById('color-picker-sb');
-var colorPickerHSBRect = new HSBRect(150, 150);
-colorPickerHSBRect.DOMElement.id = 'color-picker-hsbrect';
-colorPickerSb.appendChild(colorPickerHSBRect.DOMElement);
-var colorPickerThumb = document.createElement('div');
-colorPickerThumb.id = 'color-picker-thumb';
-colorPickerSb.appendChild(colorPickerThumb);
-colorPickerHueSlider.value = tinycolor(brush.getColor()).toHsv().h;
-
-function setColor() {
-    var halfThumbRadius = 7.5;
-    var sbSize = 150;
-    var h = colorPickerHueSlider.value;
-    var s = parseFloat(
-        colorPickerThumb.style.getPropertyValue('margin-left'));
-    var b = parseFloat(
-        colorPickerThumb.style.getPropertyValue('margin-top'));
-    s = (s + halfThumbRadius) / sbSize;
-    b = 1 - ((b + halfThumbRadius + sbSize) / sbSize);
-    brush.setColor(tinycolor({ h: h, s: s, v: b }).toRgbString());
-    var a = croquis.getPaintingOpacity();
-    var color = tinycolor({ h: h, s: s, v: b, a: a });
-    colorPickerColor.style.backgroundColor = color.toRgbString();
-    colorPickerColor.textContent = color.toHexString();
-}
-
-colorPickerHueSlider.onchange = function () {
-    colorPickerHSBRect.hue = colorPickerHueSlider.value;
-    setColor();
-}
-
-function colorPickerPointerDown(e) {
-    document.addEventListener('pointermove', colorPickerPointerMove);
-    colorPickerPointerMove(e);
-}
-function colorPickerPointerUp(e) {
-    document.removeEventListener('pointermove', colorPickerPointerMove);
-}
-function colorPickerPointerMove(e) {
-    var boundRect = colorPickerSb.getBoundingClientRect();
-    var x = (e.clientX - boundRect.left);
-    var y = (e.clientY - boundRect.top);
-    pickColor(x, y);
-}
-function minmax(value, min, max) {
-    return Math.min(max, Math.max(min, value));
-}
-function pickColor(x, y) {
-    var halfThumbRadius = 7.5;
-    var sbSize = 150;
-    colorPickerThumb.style.setProperty('margin-left',
-        (minmax(x, 0, sbSize) - halfThumbRadius) + 'px');
-    colorPickerThumb.style.setProperty('margin-top',
-        (minmax(y, 0, sbSize) - (sbSize + halfThumbRadius)) + 'px');
-    colorPickerThumb.style.setProperty('border-color',
-        (y < sbSize * 0.5) ? '#000' : '#fff');
-    setColor();
-}
-colorPickerSb.addEventListener('pointerdown', colorPickerPointerDown);
-document.addEventListener('pointerup', colorPickerPointerUp);
-
-var backgroundCheckerImage;
-(function () {
-    backgroundCheckerImage = document.createElement('canvas');
-    backgroundCheckerImage.width = backgroundCheckerImage.height = 20;
-    var backgroundImageContext = backgroundCheckerImage.getContext('2d');
-    backgroundImageContext.fillStyle = '#fff';
-    backgroundImageContext.fillRect(0, 0, 20, 20);
-    backgroundImageContext.fillStyle = '#ccc';
-    backgroundImageContext.fillRect(0, 0, 10, 10);
-    backgroundImageContext.fillRect(10, 10, 20, 20);
-})();
-
-var colorPickerChecker = document.getElementById('color-picker-checker');
-colorPickerChecker.style.backgroundImage = 'url(' +
-    backgroundCheckerImage.toDataURL() + ')';
-var colorPickerColor = document.getElementById('color-picker-color');
-
-pickColor(0, 150);
 
 let shouldHandleKeyDown = true;
 document.addEventListener("keydown", function (event) {
@@ -582,7 +433,7 @@ function documentKeyDown(e) {
 }
 
 function setPointerEvent(e) {
-    /*     if (e.pointerType !== "pen" && Croquis.Tablet.pen() && Croquis.Tablet.pen().pointerType) {//it says it's not a pen but it might be a wacom pen
+      if (e.pointerType !== "pen" && Croquis.Tablet.pen() && Croquis.Tablet.pen().pointerType) {//it says it's not a pen but it might be a wacom pen
             e.pointerType = "pen";
             e.pressure = Croquis.Tablet.pressure();
             if (Croquis.Tablet.isEraser()) {
@@ -591,7 +442,7 @@ function setPointerEvent(e) {
                     "buttons": { value: 32 }
                 });
             }
-        } */
+        } 
 }
 
 
