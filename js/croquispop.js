@@ -20,17 +20,17 @@ let currentToolBrush = {
     opacity: 1,
 }
 // imagenes de los pinceles 
-let pencilBrush = new Image(40,40);
+let pencilBrush = new Image(40, 40);
 pencilBrush.crossOrigin = "Anonymous";
 pencilBrush.alt = "pencil";
 pencilBrush.src = 'https://drawination.vercel.app/assets/pencil.png'
 
-let shadowBrush = new Image(40,40);
+let shadowBrush = new Image(40, 40);
 shadowBrush.crossOrigin = "Anonymous";
 shadowBrush.alt = "shadows";
 shadowBrush.src = 'https://drawination.vercel.app/assets/shadowBrush3.png'
 
-let hardBrush = new Image(40,40);
+let hardBrush = new Image(40, 40);
 hardBrush.crossOrigin = "Anonymous";
 hardBrush.alt = "for line art";
 hardBrush.src = 'https://drawination.vercel.app/assets/brushHard.png'
@@ -79,7 +79,7 @@ selectSketchBrush.onclick = function () {
     brushSizeSlider.value = brush2.getSize();
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     brushOpacitySlider.value = brush2.getOpacityBrushTool() * 100;
-   
+
 
     // console.log(currentToolBrush.name);
 
@@ -169,25 +169,7 @@ fillButton.onclick = function () {
  */
 
 
-// //brush images
-// var circleBrush = document.getElementById('circle-brush');
-// var brushImages = document.getElementsByClassName('brush-image');
-// var currentBrush = brushImages;
 
-// Array.prototype.map.call(brushImages, function (brush) {
-//     brush.addEventListener('pointerdown', brushImagePointerDown);
-// });
-
-// function brushImagePointerDown(e) {
-//     var image = e.currentTarget;
-//     currentBrush.className = 'brush-image';
-//     image.className = 'brush-image on';
-//     currentBrush = image;
-//     if (image == circleBrush)
-//         image = null;
-//     brush.setImage(image);
-//     updatePointer();
-// }
 
 // checking pointer-events property support
 var pointerEventsNone = document.documentElement.style.pointerEvents !== undefined;
@@ -206,6 +188,7 @@ if (pointerEventsNone) {
     croquisDOMElement.addEventListener('pointerover', function () {
         brushPointerContainer.style.display = 'block';
         croquisDOMElement.addEventListener('pointermove', croquisPointerMove);
+        croquisDOMElement.addEventListener('mousemove', croquisPointerMove);
         document.body.appendChild(brushPointerContainer);
     });
 
@@ -239,6 +222,7 @@ function croquisPointerMove(e) {
         var y = e.clientY + window.pageYOffset;
         brushPointerContainer.style.setProperty('left', x + 'px');
         brushPointerContainer.style.setProperty('top', y + 'px');
+        brushPointerContainer.style.display = 'block';
     }
 }
 
@@ -449,7 +433,14 @@ downloadButton.onclick = function () {
 
 }
 
-
+function mirrorCanvas() {
+    const canvasDownload = document.querySelectorAll('.croquis-layer-canvas');
+    let can2 = canvasDownload.item(0)
+    let ctx2 = can2.getContext('2d');
+    ctx2.translate(can2.width, 0);
+    ctx2.scale(-1, 1);
+    // ctx2.drawImage(, 0, 0);
+}
 
 
 // document.addEventListener('DOMContentLoaded', function () {
