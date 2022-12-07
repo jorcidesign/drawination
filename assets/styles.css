@@ -145,7 +145,17 @@ span {
 .toolbarDrawination {
 	background-color: #181818;
 	z-index: 1000000;
-	height: 64px;
+	/* height: 64px; */
+}
+
+.toolbarDrawination_container{
+	margin-top: -30px;
+	margin-bottom: -30px;
+}
+
+.toolbarDrawination_brushes__selected{
+	background-color: var(--secondary);
+    border-radius: 50%;
 }
 
 input[type=range] {
@@ -240,4 +250,20 @@ input[type=range] {
 	width: 100px; 
 	height: 100px; 
 	background: #428bca;
+}
+
+.colorContainer{
+	width: 30px;
+	height: 200px;
+	background-color: red;
+	position: relative;
+	left: 20px;
+}
+
+.colorSelected{
+	width: 30px;
+	height: 30px;
+	background-color: red;
+	border-radius: 50%;
+	margin: 6px 4px ;
 }

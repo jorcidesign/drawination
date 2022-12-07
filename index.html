@@ -29,11 +29,11 @@
 <body unselectable="on">
 
   <nav class=" navbar navbar-expand-lg navbar-dark toolbarDrawination p-2">
-    <div class="container-fluid ">
+    <div class="container-fluid toolbarDrawination_container">
       <div class="navbar-nav p-2">
         <a class="navbar-brand" href="#" id="clear-button">Erase all</a>
         <div class="vr"></div>
-        <a class="navbar-brand">Reference image</a>
+        <!-- <a class="navbar-brand">Reference image</a> -->
         <!-- <a class="nav-link active" aria-current="page" href="#" id="clear-button">Home</a> -->
 
 
@@ -51,21 +51,21 @@
       </div>
 
       <div class="navbar-nav p-4">
-        <a class="navbar-brand p-1" href="#" >
-          <i class="fa-solid fa-pencil"  id="sketch-brush"></i>
+        <a class="navbar-brand " href="#" >
+          <i class="fa-solid fa-pencil p-2 "  id="sketch-brush"></i>
           
           <!-- <img hidden src="../assets/pencil.png" class="brush-image" crossorigin="anonymous" ></img> -->
         </a>
-        <a class="navbar-brand p-1" href="#">
-          <i class="fa-solid fa-pen-fancy" id="lineart-brush" ></i>
+        <a class="navbar-brand" href="#">
+          <i class="fa-solid fa-pen-fancy p-2" id="lineart-brush" ></i>
           <!-- <img src="https://drawination.vercel.app/assets/brushHard.png" id="lineart-brush" class="brush-image" alt="brush hard" crossorigin="anonymous" loading="eager"></img> -->
           <!-- <img hidden src="../assets/brushHard.png" class="brush-image" crossorigin="anonymous"></img> -->
         </a>
-        <a class="navbar-brand p-1" href="#">
-          <i class="fa-solid fa-paintbrush" id="shadow-brush"></i>
+        <a class="navbar-brand" href="#">
+          <i class="fa-solid fa-paintbrush p-2" id="shadow-brush"></i>
           <!-- <img hidden src="../assets/shadowBrush3.png" class="brush-image" crossorigin="anonymous"></img> -->
         </a>
-        <a class="navbar-brand p-1" href="#">
+        <a class="navbar-brand " href="#">
 
           <div class="form-check form-switch">
             <input class="form-check-input" id="select-eraser-checkbox" type="checkbox">
@@ -75,7 +75,32 @@
       </div>
 
       <div class="navbar-nav p-4">
-
+        <!-- <div class="card">
+          <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+        </div> -->
+        <div class="container text-center">
+          <div class="row row-cols-6" >
+            <div class="col ">
+              <div class="colorSelected"></div>
+            </div>
+            <div class="col ">
+              <div class="colorSelected"></div>
+            </div>
+            <div class="col ">
+              <div class="colorSelected"></div>
+            </div>
+            <div class="col ">
+              <div class="colorSelected"></div>
+            </div>
+            <div class="col ">
+              <div class="colorSelected"></div>
+            </div>
+            <div class="col ">
+              <div class="colorSelected"></div>
+            </div>
+          </div>
+        </div>
+      
 
 
         <!-- <a class="nav-link" href="#" >Pencil</a>
@@ -103,6 +128,7 @@
   <br>
 
 
+  <!-- <div class="colorContainer" id="colorContainerDiv"></div> -->
   <div id="brush-image-shelf">
 
   </div>
@@ -159,6 +185,7 @@
 
 
     <div class="area">
+     
       <div id="divContainer" class="ar-1-1">
         <!-- <canvas id="myCanvas"></canvas>s -->
         <div class="" id="canvas-area"></div>
@@ -376,7 +403,11 @@ document.addEventListener('keyup', (event) => {
 
 
   </script>
+  <script>
 
+let divColorContainer = document.getElementById("colorContainerDiv");
+
+  </script>
 
 </body>
 

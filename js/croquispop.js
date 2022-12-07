@@ -73,36 +73,50 @@ croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
 
 //Brushes Buttons in interface
 let selectSketchBrush = document.getElementById('sketch-brush');
-selectSketchBrush.onclick = function () {
+var selectLineArtBrush = document.getElementById('lineart-brush');
+let selectShadowBrush = document.getElementById('shadow-brush');
+// selectSketchBrush.className = 'fa-solid fa-pencil p-2 toolbarDrawination_brushes__selected'
+// div.classList.add("foo");
+selectSketchBrush.classList.add("toolbarDrawination_brushes__selected");
+selectSketchBrush.onpointerdown = function () {
     croquis.setTool(brush2);
     currentToolBrush.name = 'brush2';
     brushSizeSlider.value = brush2.getSize();
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     brushOpacitySlider.value = brush2.getOpacityBrushTool() * 100;
-
+    // selectSketchBrush.className = 'fa-solid fa-pencil p-2 toolbarDrawination_brushes__selected'
+    selectSketchBrush.classList.add("toolbarDrawination_brushes__selected")
+    selectLineArtBrush.classList.remove("toolbarDrawination_brushes__selected")
+    selectShadowBrush.classList.remove("toolbarDrawination_brushes__selected")
 
     // console.log(currentToolBrush.name);
 
 }
 
 
-var selectLineArtBrush = document.getElementById('lineart-brush');
-selectLineArtBrush.onclick = function () {
+
+selectLineArtBrush.onpointerdown = function () {
     croquis.setTool(brush3);
     currentToolBrush.name = 'brush3';
     brushSizeSlider.value = brush3.getSize();
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     brushOpacitySlider.value = brush3.getOpacityBrushTool() * 100;
+    selectSketchBrush.classList.remove("toolbarDrawination_brushes__selected")
+    selectLineArtBrush.classList.add("toolbarDrawination_brushes__selected")
+    selectShadowBrush.classList.remove("toolbarDrawination_brushes__selected")
     // console.log(currentToolBrush.name);
 }
 
-let selectShadowBrush = document.getElementById('shadow-brush');
-selectShadowBrush.onclick = function () {
+
+selectShadowBrush.onpointerdown = function () {
     croquis.setTool(brush);
     currentToolBrush.name = 'brush'
     brushSizeSlider.value = brush.getSize();
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     brushOpacitySlider.value = brush.getOpacityBrushTool() * 100;
+    selectSketchBrush.classList.remove("toolbarDrawination_brushes__selected")
+    selectLineArtBrush.classList.remove("toolbarDrawination_brushes__selected")
+    selectShadowBrush.classList.add("toolbarDrawination_brushes__selected")
     // console.log(currentToolBrush.name);
     // croquis.setPaintingOpacity(0.3);
 }
