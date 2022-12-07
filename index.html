@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en" class="notranslate" translate="no">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
   <title>Drawination</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="./assets/styles.css">
+  <link rel="stylesheet" type="text/css" href="./assets/styles.css" >
   <!--[if lt IE 11]>
     <link rel="stylesheet" type="text/css"
           href="./input-range-polyfill/input-range-polyfill.css">
@@ -16,7 +18,11 @@
   <!-- CSS only -->
 
   <!-- <script src=".js/hand.minified-1.3.6.js"></script> -->
+  <script src="./js/jquery-1.7.min.js"></script>
   <script src="https://kit.fontawesome.com/9fc64722e6.js" crossorigin="anonymous"></script>
+  <script>
+  
+  </script>
 
 </head>
 
@@ -46,16 +52,18 @@
 
       <div class="navbar-nav p-4">
         <a class="navbar-brand p-1" href="#" >
-          <i class="fa-solid fa-pencil" ` id="sketch-brush"></i>
-          <!-- <img src="assets/pencil.png" class="brush-image" id="sketch-brush"></img> -->
+          <i class="fa-solid fa-pencil"  id="sketch-brush"></i>
+          
+          <!-- <img hidden src="../assets/pencil.png" class="brush-image" crossorigin="anonymous" ></img> -->
         </a>
         <a class="navbar-brand p-1" href="#">
-          <i class="fa-solid fa-pen-fancy" id="lineart-brush"></i>
-          <!-- <img src="assets/brushHard.png" class="brush-image" id="lineart-brush"></img> -->
+          <i class="fa-solid fa-pen-fancy" id="lineart-brush" ></i>
+          <!-- <img src="https://drawination.vercel.app/assets/brushHard.png" id="lineart-brush" class="brush-image" alt="brush hard" crossorigin="anonymous" loading="eager"></img> -->
+          <!-- <img hidden src="../assets/brushHard.png" class="brush-image" crossorigin="anonymous"></img> -->
         </a>
         <a class="navbar-brand p-1" href="#">
           <i class="fa-solid fa-paintbrush" id="shadow-brush"></i>
-          <!-- <img src="assets/shadowBrush3.png" class="brush-image" id="shadow-brush"></img> -->
+          <!-- <img hidden src="../assets/shadowBrush3.png" class="brush-image" crossorigin="anonymous"></img> -->
         </a>
         <a class="navbar-brand p-1" href="#">
 
@@ -141,8 +149,9 @@
       <span>rotate to direction: </span>
       <input id="brush-rotate-to-direction-checkbox" type="checkbox"> -->
   </div>
+  <!-- <img  id="imageBackground" src="./assets/PaperSurface_15.png" > -->
   <canvas hidden id="canvasExport" width="720" height="720"></canvas>
-  <img hidden id="imageBackground" src="./assets/PaperSurface_15.png">
+ 
   <!-- <button type="button" id="fill-button">fill layer</button> -->
   </div>
 
@@ -257,7 +266,7 @@
         state.element.style.transformOrigin = `${newOriginX}px ${newOriginY}px`;
         state.element.style.transform = getMatrix({ scale: newScale, translateX, translateY });
         state.transformation = { originX: newOriginX, originY: newOriginY, translateX, translateY, scale: newScale };
-        console.log(newScale);
+        // console.log(newScale);
         brush.setScaleFactor(newScale);
         brush2.setScaleFactor(newScale);
         brush3.setScaleFactor(newScale);
@@ -306,7 +315,7 @@
     let shouldHandleKeyDown = true;
 document.addEventListener("keydown", function (event) {
 
-    if (event.shiftKey) {
+    if (event.ctrlKey) {
         if (!shouldHandleKeyDown) return;
         croquisDOMElement.removeEventListener('pointerdown', canvasPointerDown);
 
@@ -329,7 +338,7 @@ document.addEventListener('keyup', (event) => {
 
     function containerPointerDown(event) {
       setPointerEvent(event);
-      if (!event.shiftKey) {
+      if (!event.ctrlKey) {
         return;
       }
       container.addEventListener('pointermove', containerPointerMove);
@@ -339,7 +348,7 @@ document.addEventListener('keyup', (event) => {
     //al mover el puntero 
     function containerPointerMove(event) {
       setPointerEvent(event);
-      if (!event.shiftKey) {
+      if (!event.ctrlKey) {
         return;
       }
       event.preventDefault();
@@ -368,54 +377,9 @@ document.addEventListener('keyup', (event) => {
 
   </script>
 
-  <!-- <script>
-  var mousePosition;
-  var offset = [0,0];
-  var divDragable;
-  var isDown = false;
-
-  let referenceImage = new Image();
-  referenceImage.src = 'https://static.wixstatic.com/media/eadfd5_51265457f03745b2a2bbdbf8a78247e9~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_90/file.jpg';
-  referenceImage.style.scale = 0.7;
-
-  divDragable = document.createElement("div");  
-  divDragable.style.position = "absolute";
-  divDragable.style.left = "0px";
-  divDragable.style.top = "0px";
-  divDragable.style.scale = 0.7;
-  // divDragable.style.background = "blue";
-  // divDragable.style.color = "blue";
-
-  document.body.appendChild(divDragable);
-  divDragable.appendChild(referenceImage);
-
-  divDragable.addEventListener('mousedown', function(e) {
-  isDown = true;
-  offset = [
-  divDragable.offsetLeft - e.clientX,
-  divDragable.offsetTop - e.clientY
-  ];
-  }, true);
-
-  document.addEventListener('mouseup', function() {
-  isDown = false;
-  }, true);
-
-  document.addEventListener('mousemove', function(event) {
-  event.preventDefault();
-  if (isDown) {
-  mousePosition = {
-
-  x : event.clientX,
-  y : event.clientY
-
-  };
-  divDragable.style.left = (mousePosition.x + offset[0]) + 'px';
-  divDragable.style.top = (mousePosition.y + offset[1]) + 'px';
-  }
-  }, true);
-</script> -->
 
 </body>
 
 </html>
+
+

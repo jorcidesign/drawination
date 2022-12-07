@@ -14,7 +14,7 @@ function Croquis(imageDataList, properties) {
     };
     self.getRelativePosition = function (absoluteX, absoluteY) {
         var rect = domElement.getBoundingClientRect();
-        return {x: absoluteX - rect.left,y: absoluteY - rect.top};
+        return { x: absoluteX - rect.left, y: absoluteY - rect.top };
     };
     var eventListeners = {
         'ondown': [],
@@ -307,9 +307,9 @@ function Croquis(imageDataList, properties) {
         }
         pushUndo(rollback);
     }
-    var size = {width: 640, height: 480};
+    var size = { width: 640, height: 480 };
     self.getCanvasSize = function () {
-        return {width: size.width, height: size.height}; //clone size
+        return { width: size.width, height: size.height }; //clone size
     };
     self.setCanvasSize = function (width, height, offsetX, offsetY) {
         offsetX = (offsetX == null) ? 0 : offsetX;
@@ -323,7 +323,7 @@ function Croquis(imageDataList, properties) {
         dirtyRectDisplay.height = height;
         domElement.style.width = width + 'px';
         domElement.style.height = height + 'px';
-        for (var i=0; i<layers.length; ++i) {
+        for (var i = 0; i < layers.length; ++i) {
             var canvas = getLayerCanvas(i);
             var context = getLayerContext(i);
             var imageData = context.getImageData(0, 0, width, height);
@@ -440,7 +440,7 @@ function Croquis(imageDataList, properties) {
         layers.splice(index, 0, layer);
         sortLayers();
         self.selectLayer(layerIndex);
-        dispatchEvent('onlayeradd', {index: index});
+        dispatchEvent('onlayeradd', { index: index });
         if (self.onLayerAdded)
             self.onLayerAdded(index);
         return layer;
@@ -453,7 +453,7 @@ function Croquis(imageDataList, properties) {
         if (layerIndex == layers.length)
             self.selectLayer(layerIndex - 1);
         sortLayers();
-        dispatchEvent('onlayerremove', {index: index});
+        dispatchEvent('onlayerremove', { index: index });
         if (self.onLayerRemoved)
             self.onLayerRemoved(index);
     };
@@ -467,7 +467,7 @@ function Croquis(imageDataList, properties) {
         layers[layerA] = layers[layerB];
         layers[layerB] = layer;
         sortLayers();
-        dispatchEvent('onlayerswap', {a: layerA, b: layerB});
+        dispatchEvent('onlayerswap', { a: layerA, b: layerB });
         if (self.onLayerSwapped)
             self.onLayerSwapped(layerA, layerB);
     };
@@ -482,7 +482,7 @@ function Croquis(imageDataList, properties) {
         if (paintingCanvas.parentElement != null)
             paintingCanvas.parentElement.removeChild(paintingCanvas);
         layers[index].appendChild(paintingCanvas);
-        dispatchEvent('onlayerselect', {index: index});
+        dispatchEvent('onlayerselect', { index: index });
         if (self.onLayerSelected)
             self.onLayerSelected(index);
     };
@@ -671,7 +671,7 @@ function Croquis(imageDataList, properties) {
     function _move(x, y, pressure) {
         if (tool.move)
             tool.move(x, y, pressure);
-        dispatchEvent('onmove', {x: x, y: y, pressure: pressure});
+        dispatchEvent('onmove', { x: x, y: y, pressure: pressure });
         if (self.onMoved)
             self.onMoved(x, y, pressure);
     }
@@ -685,15 +685,15 @@ function Croquis(imageDataList, properties) {
             gotoBeforeKnockout();
         if (dirtyRect)
             pushDirtyRectUndo(dirtyRect.x, dirtyRect.y,
-                              dirtyRect.width, dirtyRect.height);
+                dirtyRect.width, dirtyRect.height);
         else
             pushContextUndo();
         drawPaintingCanvas();
         paintingContext.clearRect(0, 0, size.width, size.height);
         dirtyRect = dirtyRect ||
-            {x: 0, y: 0, width: size.width, height: size.height};
+            { x: 0, y: 0, width: size.width, height: size.height };
         dispatchEvent('onup',
-            {x: x, y: y, pressure: pressure, dirtyRect: dirtyRect});
+            { x: x, y: y, pressure: pressure, dirtyRect: dirtyRect });
         if (self.onUpped)
             self.onUpped(x, y, pressure, dirtyRect);
         window.clearInterval(knockoutTick);
@@ -725,7 +725,7 @@ function Croquis(imageDataList, properties) {
         }
         else if (down != null)
             down(x, y, pressure);
-        dispatchEvent('ondown', {x: x, y: y, pressure: pressure});
+        dispatchEvent('ondown', { x: x, y: y, pressure: pressure });
         if (self.onDowned)
             self.onDowned(x, y, pressure);
         knockoutTick = window.setInterval(function () {
@@ -805,7 +805,7 @@ Croquis.createChecker = function (cellSize, colorA, colorB) {
     return checker;
 }
 Croquis.createBrushPointer = function (brushImage, brushSize, brushAngle,
-                                       threshold, antialias, color) {
+    threshold, antialias, color) {
     brushSize = brushSize | 0;
     var pointer = document.createElement('canvas');
     var pointerContext = pointer.getContext('2d');
@@ -844,10 +844,10 @@ Croquis.createBrushPointer = function (brushImage, brushSize, brushAngle,
         pointerContext.restore();
     }
     return Croquis.createAlphaThresholdBorder(
-            pointer, threshold, antialias, color);
+        pointer, threshold, antialias, color);
 };
 Croquis.createAlphaThresholdBorder = function (image, threshold,
-                                               antialias, color) {
+    antialias, color) {
     threshold = (threshold == null) ? 0x80 : threshold;
     color = (color == null) ? '#000' : color;
     var width = image.width;
@@ -956,7 +956,7 @@ Croquis.createFloodFill = function (canvas, x, y, r, g, b, a) {
         var index = ((y * w) + x) * 4;
         return (rd[index] ? replacementColor :
             ((od[index] << 24) | (od[index + 1] << 16) |
-             (od[index + 2] << 8) | od[index + 3]));
+                (od[index + 2] << 8) | od[index + 3]));
     }
     var queue = [];
     queue.push(x, y);
@@ -1028,7 +1028,7 @@ Croquis.Tablet.isEraser = function () {
 
 
 Croquis.Stabilizer = function (down, move, up, level, weight,
-                               x, y, pressure, interval) {
+    x, y, pressure, interval) {
     interval = interval || 5;
     var follow = 1 - Math.min(0.95, Math.max(0, weight));
     var paramTable = [];
@@ -1083,7 +1083,7 @@ Croquis.Stabilizer = function (down, move, up, level, weight,
         if (justCalc)
             return delta;
         if (upCalled) {
-            while(delta > 1) {
+            while (delta > 1) {
                 move(last.x, last.y, last.pressure);
                 delta = _move(true);
             }
@@ -1106,11 +1106,11 @@ Croquis.Random.LFSR113 = function (seed) {
     this.get = function () {
         var f = ((a << 6) ^ a) >> 13;
         a = ((a & 4294967294) << 18) ^ f;
-        f  = ((b << 2) ^ b) >> 27;
+        f = ((b << 2) ^ b) >> 27;
         b = ((b & 4294967288) << 2) ^ f;
-        f  = ((c << 13) ^ c) >> 21;
+        f = ((c << 13) ^ c) >> 21;
         c = ((c & 4294967280) << 7) ^ f;
-        f  = ((d << 3) ^ d) >> 12;
+        f = ((d << 3) ^ d) >> 12;
         d = ((d & 4294967168) << 13) ^ f;
         return (a ^ b ^ c ^ d) * 2.3283064365386963e-10 + 0.5;
     }
@@ -1119,7 +1119,7 @@ Croquis.Random.LFSR113 = function (seed) {
     e = (seed / IQ) | 0;
     seed = (((IA * (seed - ((e * IQ) | 0))) | 0) - ((IR * e) | 0)) | 0;
     if (seed < 0) seed = (seed + IM) | 0;
-    if (seed < 2) a = (seed + 2) | 0 ; else a = seed;
+    if (seed < 2) a = (seed + 2) | 0; else a = seed;
     e = (seed / IQ) | 0;
     seed = (((IA * (seed - ((e * IQ) | 0))) | 0) - ((IR * e) | 0)) | 0;
     if (seed < 0) seed = (seed + IM) | 0;
@@ -1182,18 +1182,18 @@ Croquis.Brush = function () {
         transformedImageIsDirty = true;
     }
     var flow = 1;
-    this.getFlow = function() {
+    this.getFlow = function () {
         return flow;
     }
-    this.setFlow = function(value) {
+    this.setFlow = function (value) {
         flow = value;
         transformedImageIsDirty = true;
     }
-    var opacityBrushTool = 1; 
-    this.getOpacityBrushTool = function(){
-        return opacityBrushTool; 
+    var opacityBrushTool = 1;
+    this.getOpacityBrushTool = function () {
+        return opacityBrushTool;
     }
-    this.setOpacityBrushTool = function(value){
+    this.setOpacityBrushTool = function (value) {
         opacityBrushTool = (value < 0.01) ? 0.01 : value;
     }
 
@@ -1243,11 +1243,11 @@ Croquis.Brush = function () {
         tangentSpread = value;
     }
     let scaleFactorBrush = 1;
-    this.setScaleFactor = function(value){
-        scaleFactorBrush = value; 
+    this.setScaleFactor = function (value) {
+        scaleFactorBrush = value;
     }
-    this.getScaleFactor = function(){
-        return scaleFactorBrush;    
+    this.getScaleFactor = function () {
+        return scaleFactorBrush;
     }
     var image = null;
     var transformedImage = null;
@@ -1256,6 +1256,8 @@ Croquis.Brush = function () {
     this.getImage = function () {
         return image;
     }
+
+ 
     this.setImage = function (value) {
         if (value == null) {
             transformedImage = image = null;
@@ -1280,7 +1282,7 @@ Croquis.Brush = function () {
     var drawFunction = drawCircle;
     var reserved = null;
     var dirtyRect;
-    
+
     function spreadRandom() {
         return random() - 0.5;
     }
@@ -1327,6 +1329,15 @@ Croquis.Brush = function () {
         context.closePath();
         context.fill();
     }
+    // function drawHardBrush(size) {
+    //     var halfSize = size * 0.5;
+    //     context.fillStyle = color;
+    //     context.globalAlpha = flow;
+    //     context.beginPath();
+    //     context.arc(halfSize, halfSize, halfSize, 0, ONE);
+    //     context.closePath();
+    //     context.fill();
+    // }
     function drawImage(size) {
         if (transformedImageIsDirty)
             transformImage();
@@ -1334,6 +1345,7 @@ Croquis.Brush = function () {
             context.drawImage(transformedImage, 0, 0, size, size * imageRatio);
         }
         catch (e) {
+            console.log(e);
             drawCircle(size);
         }
     }
@@ -1356,20 +1368,20 @@ Croquis.Brush = function () {
         drawFunction(width);
         context.restore();
         appendDirtyRect(x - (boundWidth * 0.5),
-                        y - (boundHeight * 0.5),
-                        boundWidth, boundHeight);
+            y - (boundHeight * 0.5),
+            boundWidth, boundHeight);
     }
-    this.down = function(x, y, scale ,scaleFactor) {
+    this.down = function (x, y, scale, scaleFactor) {
         scaleFactor = scaleFactorBrush;
-        x = x/scaleFactor;
-        y = y/scaleFactor;
+        x = x / scaleFactor;
+        y = y / scaleFactor;
         if (context == null)
             throw 'brush needs the context';
         dir = 0;
-        dirtyRect = {x: 0, y: 0, width: 0, height: 0};
+        dirtyRect = { x: 0, y: 0, width: 0, height: 0 };
         if (scale > 0) {
             if (rotateToDirection || normalSpread != 0 || tangentSpread != 0)
-                reserved = {x: x, y: y, scale: scale};
+                reserved = { x: x, y: y, scale: scale };
             else
                 drawTo(x, y, scale);
         }
@@ -1377,14 +1389,14 @@ Croquis.Brush = function () {
         lastX = prevX = x;
         lastY = prevY = y;
         prevScale = scale;
-        console.log(x,y,scale);
-        
+        // console.log(x,y,scale);
+
 
     }
-    this.move = function(x, y, scale) {
+    this.move = function (x, y, scale) {
         scaleFactor = scaleFactorBrush;
-        x = x/scaleFactor;
-        y = y/scaleFactor;
+        x = x / scaleFactor;
+        y = y / scaleFactor;
         if (context == null)
             throw 'brush needs the context';
         if (scale <= 0) {
@@ -1422,7 +1434,7 @@ Croquis.Brush = function () {
             drawTo(lastX, lastY, scale);
             delta -= drawSpacing;
         } else {
-            while(delta >= drawSpacing) {
+            while (delta >= drawSpacing) {
                 ldx = x - lastX;
                 ldy = y - lastY;
                 var tx = cos(dir);

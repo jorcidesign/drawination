@@ -21,9 +21,6 @@ body {
 
 }
 
-.cursor {
-	cursor: default;
-}
 
 .cursor--small {
 	width: 10px;
@@ -238,3 +235,9 @@ input[type=range] {
   input[type=range]:focus::-ms-fill-upper {
 	background: #ac51b5;
   }
+
+  .cuadrado {
+	width: 100px; 
+	height: 100px; 
+	background: #428bca;
+}

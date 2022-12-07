@@ -1,9 +1,10 @@
-window.onload = function() {
-    if(!window.location.hash) {
-        window.location = window.location + '#loaded';
-        window.location.reload();
-    }
-}
+// window.onload = function() {
+//     if(!window.location.hash) {
+//         window.location = window.location + '#loaded';
+//         window.location.reload();
+//     }
+// }
+
 
 
 // Initialize croquis
@@ -15,24 +16,32 @@ var croquis = new Croquis();
 croquis.lockHistory();
 croquis.setCanvasSize(720, 720);
 croquis.addLayer();
+croquis.selectLayer(0);
 croquis.unlockHistory();
 croquis.setToolStabilizeLevel(10);
 croquis.setToolStabilizeWeight(0.35);
 // croquis.setPaintingOpacity(1);
 
 let currentToolBrush = {
-    name: 'brush',
+    name: 'brush2',
     opacity: 1,
 }
 // imagenes de los pinceles 
-let lineArtBrush = new Image();
-lineArtBrush.src = './assets/brushHard.png'
+let pencilBrush = new Image(40,40);
+pencilBrush.crossOrigin = "Anonymous";
+pencilBrush.alt = "pencil";
+pencilBrush.src = 'https://drawination.vercel.app/assets/pencil.png'
 
-let shadowBrush = new Image();
-shadowBrush.src = './assets/shadowBrush3.png'
+let shadowBrush = new Image(40,40);
+shadowBrush.crossOrigin = "Anonymous";
+shadowBrush.alt = "shadows";
+shadowBrush.src = 'https://drawination.vercel.app/assets/shadowBrush3.png'
 
-let sketchBrush = new Image();
-sketchBrush.src = './assets/pencil.png'
+let hardBrush = new Image(40,40);
+hardBrush.crossOrigin = "Anonymous";
+hardBrush.alt = "for line art";
+hardBrush.src = 'https://drawination.vercel.app/assets/brushHard.png'
+
 
 //*--------------------- Initizalize brushes----------------*//
 //shadow brush 
@@ -43,13 +52,13 @@ brush.setSpacing(0.1);
 brush.setImage(shadowBrush);
 brush.setOpacityBrushTool(0.2); //just for change the layer opacity, 
 
-console.log(brush.getOpacityBrushTool());
+// console.log(brush.getOpacityBrushTool());
 //sketch brush 
 var brush2 = new Croquis.Brush()
 brush2.setSize(6);
 brush2.setColor('red');
 brush2.setSpacing(0.2);
-brush2.setImage(sketchBrush);
+brush2.setImage(pencilBrush);
 brush2.setOpacityBrushTool(1);
 
 //line art brush 
@@ -58,7 +67,10 @@ brush3.setSize(6);
 brush3.setColor('#000');
 brush3.setSpacing(0.2);
 brush3.setOpacityBrushTool(1);
-brush3.setImage(lineArtBrush);
+brush3.setImage(hardBrush)
+
+
+
 
 
 croquis.setTool(window[currentToolBrush.name]);
@@ -74,20 +86,21 @@ selectSketchBrush.onclick = function () {
     brushSizeSlider.value = brush2.getSize();
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     brushOpacitySlider.value = brush2.getOpacityBrushTool() * 100;
+   
 
-    console.log(currentToolBrush.name);
+    // console.log(currentToolBrush.name);
 
 }
 
 
-let selectLineArtBrush = document.getElementById('lineart-brush');
+var selectLineArtBrush = document.getElementById('lineart-brush');
 selectLineArtBrush.onclick = function () {
     croquis.setTool(brush3);
     currentToolBrush.name = 'brush3';
     brushSizeSlider.value = brush3.getSize();
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     brushOpacitySlider.value = brush3.getOpacityBrushTool() * 100;
-    console.log(currentToolBrush.name);
+    // console.log(currentToolBrush.name);
 }
 
 let selectShadowBrush = document.getElementById('shadow-brush');
@@ -97,7 +110,7 @@ selectShadowBrush.onclick = function () {
     brushSizeSlider.value = brush.getSize();
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     brushOpacitySlider.value = brush.getOpacityBrushTool() * 100;
-    console.log(currentToolBrush.name);
+    // console.log(currentToolBrush.name);
     // croquis.setPaintingOpacity(0.3);
 }
 
@@ -198,6 +211,7 @@ brushPointerContainer.className = 'cursor--small';
 
 if (pointerEventsNone) {
     croquisDOMElement.addEventListener('pointerover', function () {
+        brushPointerContainer.style.display = 'block';
         croquisDOMElement.addEventListener('pointermove', croquisPointerMove);
         document.body.appendChild(brushPointerContainer);
     });
@@ -219,7 +233,8 @@ if (pointerEventsNone) {
 
     croquisDOMElement.addEventListener('pointerout', function () {
         croquisDOMElement.removeEventListener('pointermove', croquisPointerMove);
-        brushPointerContainer.parentElement.removeChild(brushPointerContainer);
+        // brushPointerContainer.parentElement.removeChild(brushPointerContainer);
+        brushPointerContainer.style.display = 'none';
     });
 
 
@@ -258,7 +273,6 @@ function croquisPointerMove(e) {
 
 
 
-console.log(gsap)
 
 
 
@@ -342,13 +356,13 @@ selectEraserCheckbox.onchange = function () {
 brushSizeSlider.onchange = function () {
     window[currentToolBrush.name].setSize(brushSizeSlider.value);
     currentToolBrush.size = brushSizeSlider.value;
-    console.log(currentToolBrush.size);
+    // console.log(currentToolBrush.size);
     // updatePointer();
 }
 brushOpacitySlider.onchange = function () {
 
     window[currentToolBrush.name].setOpacityBrushTool(brushOpacitySlider.value * 0.01);
-    console.log(window[currentToolBrush.name].getOpacityBrushTool())
+    // console.log(window[currentToolBrush.name].getOpacityBrushTool())
     croquis.setPaintingOpacity(window[currentToolBrush.name].getOpacityBrushTool());
     // setColor();
 }
@@ -365,13 +379,6 @@ brushOpacitySlider.onchange = function () {
 // brushRotateToDirectionCheckbox.onchange = function () {
 //     brush.setRotateToDirection(brushRotateToDirectionCheckbox.checked);
 // }
-
-
-console.log(brush.getColor());
-
-
-
-
 
 
 
@@ -408,9 +415,16 @@ function setPointerEvent(e) {
 }
 
 
+let imageBackground = new Image();
+imageBackground.crossOrigin = "Anonymous";
+imageBackground.alt = "paper background";
+imageBackground.src = 'https://drawination.vercel.app/assets/PaperSurface_15.png'
+// imageBackground.addEventListener("load", imageReceived, false);
 
+// console.log(imageBackground)
 //Descargar imagen con paper backgraound 
 let downloadButton = document.getElementById('download');
+
 downloadButton.onclick = function () {
 
     const canvasDownload = document.querySelectorAll('.croquis-layer-canvas');//obtener las canvas layers del croquis
@@ -423,9 +437,11 @@ downloadButton.onclick = function () {
     let ctx3 = can3.getContext('2d');
 
 
-    const image = document.getElementById('imageBackground');
 
-    ctx3.drawImage(image, 0, 0);
+
+    ctx3.drawImage(imageBackground, 0, 0);
+
+
     ctx3.globalCompositeOperation = "multiply";
     ctx3.drawImage(can2, 0, 0);
     ctx3.globalCompositeOperation = "normal";
@@ -441,79 +457,12 @@ downloadButton.onclick = function () {
 }
 
 
-let zoomIn = document.getElementById('zoom-in');
-zoomIn.onclick = function () {
-    // croquis.setCanvasSize(1080, 1080);
-    const canvasDownload = document.querySelectorAll('.croquis-layer-canvas');//obtener las canvas layers del croquis
-    // let can = canvasDownload.item(0);//layer 1 (whiteBackground)
-    let canvas2 = canvasDownload.item(0);//layer 2 (painting)
-    let ctx2 = canvas2.getContext('2d');
-    var target = new Image();
-
-    target.src = canvas2.toDataURL();
-
-/*     const resizedDataUri = resizeImage(target, 300);
-    // targetResize.src = resizeImage(target,1080);
-    target.src = resizedDataUri;
- */  const canvas1 = document.createElement('canvas');
-    const ctx = canvas1.getContext('2d');
-    canvas1.width = 720;
-    canvas1.height = 720;
 
 
-    ctx.drawImage(canvas2, 0, 0, 1080, 1080);
-
-    croquis.clearLayer()
-    document.getElementById('brush-shelf').appendChild(canvas1);
-
-    ctx2.drawImage(canvas1, 0, 0)
-    // ctx2.drawImage(canvas1,0,0,1080,1080);
-    // console.log(targetResize);
-    // croquis.clearLayer();
-    // ctx2.drawImage(resizeImage(target,1080), 0, 0)
-
-}
-
-
-function resizeImage(imgEl, wantedWidth) {
-    const canvas1 = document.createElement('canvas');
-    const ctx = canvas1.getContext('2d');
-
-    const aspect = imgEl.width / imgEl.height;
-
-    canvas1.width = wantedWidth;
-    canvas1.height = wantedWidth / aspect;
-
-    ctx.drawImage(imgEl, 0, 0, canvas1.width, canvas1.height);
-    return canvas1.toDataURL();
-}
-
-
-let div = document.querySelectorAll('.croquis-layer-canvas').item(0);
-
-
-function drawRect() {
-    let div2 = document.querySelectorAll('.croquis-painting-canvas').item(0);
-    var ctxTest = div2.getContext("2d");
-    ctxTest.beginPath();
-    ctxTest.rect(20, 20, 150, 100);
-    ctxTest.stroke();
-
-}
-
-// export {brush}
-
-
-
-
-// 
-/* 
-var movie = "test";
-var movieId = 1;
-localStorage[movie + movieId] = "Gaaa"
-
-alert(localStorage['test1'])
- */
-
-
-
+// document.addEventListener('DOMContentLoaded', function () {
+//     let brushHard = new Image();
+//     brushHard.crossOrigin = "Anonymous";
+//     brushHard.alt = "brushHard";
+//     brushHard.src = 'https://drawination.vercel.app/assets/brushHard.png'
+//     brush3.setImage(brushHard);
+//   }, false);
