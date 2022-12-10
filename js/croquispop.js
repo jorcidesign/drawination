@@ -130,7 +130,7 @@ canvasArea.appendChild(croquisDOMElement);
 
 //al hacer click 
 function canvasPointerDown(e) {
-    setPointerEvent(e);
+    // setPointerEvent(e);
     var pointerPosition = getRelativePosition(e.clientX, e.clientY);
 
 
@@ -146,14 +146,14 @@ function canvasPointerDown(e) {
 // e.pointerType === "pen" ? e.pressure : 1
 //al mover el puntero 
 function canvasPointerMove(e) {
-    setPointerEvent(e);
+    // setPointerEvent(e);
     var pointerPosition = getRelativePosition(e.clientX, e.clientY);
     croquis.move(pointerPosition.x, pointerPosition.y, e.pointerType === "pen" ? e.pressure : 1);
 }
 
 //encima del canvas 
 function canvasPointerUp(e) {
-    setPointerEvent(e);
+    // setPointerEvent(e);
     var pointerPosition = getRelativePosition(e.clientX, e.clientY);
     if (pointerEventsNone)
         canvasArea.style.setProperty('cursor', 'none');
@@ -199,32 +199,34 @@ brushPointerContainer.className = 'cursor--small';
 /////////////////////////////////////////////
 
 if (pointerEventsNone) {
-    croquisDOMElement.addEventListener('pointerover', function () {
+    canvasArea.addEventListener('mouseover', function () {
         brushPointerContainer.style.display = 'block';
-        croquisDOMElement.addEventListener('pointermove', croquisPointerMove);
-        croquisDOMElement.addEventListener('mousemove', croquisPointerMove);
+        canvasArea.addEventListener('pointermove', croquisPointerMove);
+        canvasArea.addEventListener('mousemove', croquisPointerMove);
         document.body.appendChild(brushPointerContainer);
     });
 
-    croquisDOMElement.addEventListener("pointerdown", () => {
+    canvasArea.addEventListener("mousedown", () => {
         gsap.to(brushPointerContainer, 0.15, {
             scale: 1.5,
             opacity: 0.3,
         });
+        canvasArea.addEventListener('pointermove', croquisPointerMove);      
     });
 
-    croquisDOMElement.addEventListener("pointerup", () => {
+    canvasArea.addEventListener("pointerup", () => {
         gsap.to(brushPointerContainer, 0.15, {
             scale: 1,
             opacity: 1,
         });
+        // brushPointerContainer.remove();   
     });
 
 
-    croquisDOMElement.addEventListener('pointerout', function () {
-        croquisDOMElement.removeEventListener('pointermove', croquisPointerMove);
-        // brushPointerContainer.parentElement.removeChild(brushPointerContainer);
-        brushPointerContainer.style.display = 'none';
+    canvasArea.addEventListener('pointerout', function () {
+        canvasArea.removeEventListener('mousemove', croquisPointerMove);
+        brushPointerContainer.remove();
+        // brushPointerContainer.style.display = 'none';
     });
 
 
@@ -232,11 +234,11 @@ if (pointerEventsNone) {
 
 function croquisPointerMove(e) {
     if (pointerEventsNone) {
-        var x = e.clientX + window.pageXOffset;
-        var y = e.clientY + window.pageYOffset;
+        var x = e.clientX ;
+        var y = e.clientY ;
         brushPointerContainer.style.setProperty('left', x + 'px');
         brushPointerContainer.style.setProperty('top', y + 'px');
-        brushPointerContainer.style.display = 'block';
+        // brushPointerContainer.style.display = 'block';
     }
 }
 
@@ -392,18 +394,18 @@ function documentKeyDown(e) {
     }
 }
 
-function setPointerEvent(e) {
-    if (e.pointerType !== "pen" && Croquis.Tablet.pen() && Croquis.Tablet.pen().pointerType) {//it says it's not a pen but it might be a wacom pen
-        e.pointerType = "pen";
-        e.pressure = Croquis.Tablet.pressure();
-        if (Croquis.Tablet.isEraser()) {
-            Object.defineProperties(e, {
-                "button": { value: 5 },
-                "buttons": { value: 32 }
-            });
-        }
-    }
-}
+// function setPointerEvent(e) {
+//     if (e.pointerType !== "pen" && Croquis.Tablet.pen() && Croquis.Tablet.pen().pointerType) {//it says it's not a pen but it might be a wacom pen
+//         e.pointerType = "pen";
+//         e.pressure = Croquis.Tablet.pressure();
+//         if (Croquis.Tablet.isEraser()) {
+//             Object.defineProperties(e, {
+//                 "button": { value: 5 },
+//                 "buttons": { value: 32 }
+//             });
+//         }
+//     }
+// }
 
 
 let imageBackground = new Image();

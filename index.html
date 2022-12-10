@@ -1,416 +1,399 @@
 <!DOCTYPE html>
 <html lang="en" class="notranslate" translate="no">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google" content="notranslate">
-  <title>Drawination</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google" content="notranslate" />
+    <title>Drawination</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="./assets/styles.css" >
-  <!--[if lt IE 11]>
-    <link rel="stylesheet" type="text/css"
-          href="./input-range-polyfill/input-range-polyfill.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="./assets/styles.css" />
+    <!--[if lt IE 11]>
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="./input-range-polyfill/input-range-polyfill.css"
+      />
     <![endif]-->
-  <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css"> -->
-  <!-- CSS only -->
+    <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css"> -->
+    <!-- CSS only -->
 
-  <!-- <script src=".js/hand.minified-1.3.6.js"></script> -->
-  <script src="./js/jquery-1.7.min.js"></script>
-  <script src="https://kit.fontawesome.com/9fc64722e6.js" crossorigin="anonymous"></script>
-  <script>
-  
-  </script>
+    <!-- <script src=".js/hand.minified-1.3.6.js"></script> -->
+    <script src="./js/jquery-1.7.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/9fc64722e6.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-</head>
+  <body unselectable="on">
+    <nav class="navbar navbar-expand-lg navbar-dark toolbarDrawination p-2">
+      <div class="container-fluid toolbarDrawination_container">
+        <div class="navbar-nav p-2">
+          <a class="navbar-brand" href="#" id="clear-button">Erase all</a>
+          <div class="vr"></div>
+          <!-- <a class="navbar-brand">Reference image</a> -->
+          <!-- <a class="nav-link active" aria-current="page" href="#" id="clear-button">Home</a> -->
+        </div>
+        <div class="navbar-nav p-4">
+          <a class="navbar-brand">
+            <input
+              class="form-range"
+              id="brush-size-slider"
+              orient
+              type="range"
+              min="1"
+              max="100"
+            />
+          </a>
+          <a class="navbar-brand">
+            <input
+              class="form-range"
+              id="brush-opacity-slider"
+              orien
+              type="range"
+              min="0"
+              max="100"
+            />
+          </a>
+        </div>
 
-<body unselectable="on">
+        <div class="navbar-nav p-4">
+          <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-pencil p-2" id="sketch-brush"></i>
 
-  <nav class=" navbar navbar-expand-lg navbar-dark toolbarDrawination p-2">
-    <div class="container-fluid toolbarDrawination_container">
-      <div class="navbar-nav p-2">
-        <a class="navbar-brand" href="#" id="clear-button">Erase all</a>
-        <div class="vr"></div>
-        <!-- <a class="navbar-brand">Reference image</a> -->
-        <!-- <a class="nav-link active" aria-current="page" href="#" id="clear-button">Home</a> -->
+            <!-- <img hidden src="../assets/pencil.png" class="brush-image" crossorigin="anonymous" ></img> -->
+          </a>
+          <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-pen-fancy p-2" id="lineart-brush"></i>
+            <!-- <img src="https://drawination.vercel.app/assets/brushHard.png" id="lineart-brush" class="brush-image" alt="brush hard" crossorigin="anonymous" loading="eager"></img> -->
+            <!-- <img hidden src="../assets/brushHard.png" class="brush-image" crossorigin="anonymous"></img> -->
+          </a>
+          <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-paintbrush p-2" id="shadow-brush"></i>
+            <!-- <img hidden src="../assets/shadowBrush3.png" class="brush-image" crossorigin="anonymous"></img> -->
+          </a>
+          <a class="navbar-brand" href="#">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                id="select-eraser-checkbox"
+                type="checkbox"
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault"
+                >Eraser</label
+              >
+            </div>
+          </a>
+        </div>
 
-
-
-      </div>
-      <div class="navbar-nav p-4">
-        <a class="navbar-brand">
-          <input class="form-range" id="brush-size-slider" orient type="range" min="1" max="100">
-        </a>
-        <a class="navbar-brand">
-
-          <input class="form-range" id="brush-opacity-slider" orien type="range" min="0" max="100">
-        </a>
-
-      </div>
-
-      <div class="navbar-nav p-4">
-        <a class="navbar-brand " href="#" >
-          <i class="fa-solid fa-pencil p-2 "  id="sketch-brush"></i>
-          
-          <!-- <img hidden src="../assets/pencil.png" class="brush-image" crossorigin="anonymous" ></img> -->
-        </a>
-        <a class="navbar-brand" href="#">
-          <i class="fa-solid fa-pen-fancy p-2" id="lineart-brush" ></i>
-          <!-- <img src="https://drawination.vercel.app/assets/brushHard.png" id="lineart-brush" class="brush-image" alt="brush hard" crossorigin="anonymous" loading="eager"></img> -->
-          <!-- <img hidden src="../assets/brushHard.png" class="brush-image" crossorigin="anonymous"></img> -->
-        </a>
-        <a class="navbar-brand" href="#">
-          <i class="fa-solid fa-paintbrush p-2" id="shadow-brush"></i>
-          <!-- <img hidden src="../assets/shadowBrush3.png" class="brush-image" crossorigin="anonymous"></img> -->
-        </a>
-        <a class="navbar-brand " href="#">
-
-          <div class="form-check form-switch">
-            <input class="form-check-input" id="select-eraser-checkbox" type="checkbox">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Eraser</label>
-          </div>
-        </a>
-      </div>
-
-      <div class="navbar-nav p-4">
-        <!-- <div class="card">
+        <div class="navbar-nav p-4">
+          <!-- <div class="card">
           <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
         </div> -->
-        <div class="container text-center">
-          <div class="row row-cols-6" >
-            <div class="col ">
-              <div class="colorSelected"></div>
-            </div>
-            <div class="col ">
-              <div class="colorSelected"></div>
-            </div>
-            <div class="col ">
-              <div class="colorSelected"></div>
-            </div>
-            <div class="col ">
-              <div class="colorSelected"></div>
-            </div>
-            <div class="col ">
-              <div class="colorSelected"></div>
-            </div>
-            <div class="col ">
-              <div class="colorSelected"></div>
+          <div class="container text-center">
+            <div class="row row-cols-6">
+              <div class="col">
+                <div class="colorSelected"></div>
+              </div>
+              <div class="col">
+                <div class="colorSelected"></div>
+              </div>
+              <div class="col">
+                <div class="colorSelected"></div>
+              </div>
+              <div class="col">
+                <div class="colorSelected"></div>
+              </div>
+              <div class="col">
+                <div class="colorSelected"></div>
+              </div>
+              <div class="col">
+                <div class="colorSelected"></div>
+              </div>
             </div>
           </div>
-        </div>
-      
 
-
-        <!-- <a class="nav-link" href="#" >Pencil</a>
+          <!-- <a class="nav-link" href="#" >Pencil</a>
         <a class="nav-link" href="#" >Ink</a>
         <a class="nav-link disabled">Brush</a> -->
+        </div>
 
-      </div>
-
-
-
-      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> -->
 
-      <div class="navbar-nav">
-
-        <a class="navbar-brand p-1" href="#" id="download"><i class="fa-solid fa-download"></i></a>
-
-
+        <div class="navbar-nav">
+          <a class="navbar-brand p-1" href="#" id="download"
+            ><i class="fa-solid fa-download"></i
+          ></a>
+        </div>
       </div>
+    </nav>
 
-    </div>
-  </nav>
+    <!-- <div class="colorContainer" id="colorContainerDiv"></div> -->
 
-  <br>
+    <!-- <img  id="imageBackground" src="./assets/PaperSurface_15.png" > -->
+    <canvas hidden id="canvasExport" width="720" height="720"></canvas>
 
-
-  <!-- <div class="colorContainer" id="colorContainerDiv"></div> -->
-  <div id="brush-image-shelf">
-
-  </div>
-  <hr>
-
-
-  <!-- <button type="button" id="zoom-in">zoom-in</button> -->
-  <br>
-
-  <!-- <div  class="cursor cursor--small"></div> -->
-  <div id="right-side">
-    <!-- <div id="color-picker"> -->
-    <!-- <div id="color-picker-sb">
-      </div>
-
-      <span>hue: </span>
-      <input id="color-picker-hue-slider" type="range" min="0" max="360">
-      <br> -->
-    <span>opacity: </span>
-
-    <br>
-    <!-- <span>color: </span>
-      <div id="color-picker-checker">
-        <p id="color-picker-color"></p>
-      </div> -->
-  </div>
-  <hr>
-  <div id="brush-shelf">
-    <span>eraser: </span>
-
-    <hr>
-    <span>Brush size: </span>
-
-    <br>
-    <!-- <span>flow: </span>
-      <input id="brush-flow-slider" type="range" min="0" max="100">
-      <br>
-      <span>spacing: </span>
-      <input id="brush-spacing-slider" type="range" min="0" max="1000">
-      <br> -->
-    <!-- <span>angle: </span>
-      <input id="brush-angle-slider" type="range" min="0" max="360">
-      <br>
-      <span>rotate to direction: </span>
-      <input id="brush-rotate-to-direction-checkbox" type="checkbox"> -->
-  </div>
-  <!-- <img  id="imageBackground" src="./assets/PaperSurface_15.png" > -->
-  <canvas hidden id="canvasExport" width="720" height="720"></canvas>
- 
-  <!-- <button type="button" id="fill-button">fill layer</button> -->
-  </div>
-
-  <div id="container">
-
-
-    <div class="area">
-     
-      <div id="divContainer" class="ar-1-1">
-        <!-- <canvas id="myCanvas"></canvas>s -->
-        <div class="" id="canvas-area"></div>
+    <div id="container">
+      <div class="area">
+        <div id="divContainer" class="ar-1-1">
+          <!-- <canvas id="myCanvas"></canvas>s -->
+          <div class="" id="canvas-area"></div>
+        </div>
       </div>
     </div>
-  </div>
 
-  </div>
+    <!-- <div id="draggable" class="no-select">drag me</div> -->
 
-
-  <!-- <div id="draggable" class="no-select">drag me</div> -->
-
-  <style>
-    body {
-      overflow: hidden;
-    }
-
-    #container {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 720px;
-      height: 720px;
-    }
-
-    .area {
-      /* border: 1px dashed black; */
-      height: 100%;
-      width: 100%;
-      position: absolute;
-    }
-  </style>
-
-
-
-
-
-  <!--[if lt IE 11]>
-    <script src="./input-range-polyfill/input-range-polyfill.js"></script>
-    <![endif]-->
-  <!-- <script src="./js/tinycolor.js"></script>
-  <script src="./js/HSBRect.js"></script> -->
-  <script src="./js/croquis.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.1.1/gsap.min.js"></script>
-
-  <script src="./js/croquispop.js"></script>
-
-
-
-  <!-- mejorar este script para la conveniencia del negocio -->
-  <!--[if lt IE 10]>
-    <script>
-    
-    </script>
-    <![endif]-->
-  <script>
-    // import {croquispop} from croquispop.js;
-    const hasPositionChanged = ({ pos, prevPos }) => pos !== prevPos;
-
-    const valueInRange = ({ minScale, maxScale, scale }) => scale <= maxScale && scale >= minScale;
-
-    const getTranslate = ({ minScale, maxScale, scale }) => ({ pos, prevPos, translate }) =>
-      valueInRange({ minScale, maxScale, scale }) && hasPositionChanged({ pos, prevPos })
-        ? translate + (pos - prevPos * scale) * (1 - 1 / scale)
-        : translate;
-
-    const getMatrix = ({ scale, translateX, translateY }) => `matrix(${scale}, 0, 0, ${scale}, ${translateX}, ${translateY})`;
-
-    const getScale = ({ scale, minScale, maxScale, scaleSensitivity, deltaScale }) => {
-      let newScale = scale + (deltaScale / (scaleSensitivity / scale));
-      newScale = Math.max(minScale, Math.min(newScale, maxScale));
-      return [scale, newScale];
-    };
-
-    const pan = ({ state, originX, originY }) => {
-      state.transformation.translateX += originX;
-      state.transformation.translateY += originY;
-      state.element.style.transform =
-        getMatrix({ scale: state.transformation.scale, translateX: state.transformation.translateX, translateY: state.transformation.translateY });
-    };
-
-    const canPan = (state) => ({
-      panBy: ({ originX, originY }) => pan({ state, originX, originY }),
-      panTo: ({ originX, originY, scale }) => {
-        state.transformation.scale = scale;
-        pan({ state, originX: originX - state.transformation.translateX, originY: originY - state.transformation.translateY });
-      },
-    });
-
-    const canZoom = (state) => ({
-      zoom: ({ x, y, deltaScale }) => {
-        const { left, top } = state.element.getBoundingClientRect();
-        const { minScale, maxScale, scaleSensitivity } = state;
-        const [scale, newScale] = getScale({ scale: state.transformation.scale, deltaScale, minScale, maxScale, scaleSensitivity });
-        const originX = x - left;
-        const originY = y - top;
-        const newOriginX = originX / scale;
-        const newOriginY = originY / scale;
-        const translate = getTranslate({ scale, minScale, maxScale });
-        const translateX = translate({ pos: originX, prevPos: state.transformation.originX, translate: state.transformation.translateX });
-        const translateY = translate({ pos: originY, prevPos: state.transformation.originY, translate: state.transformation.translateY });
-
-        state.element.style.transformOrigin = `${newOriginX}px ${newOriginY}px`;
-        state.element.style.transform = getMatrix({ scale: newScale, translateX, translateY });
-        state.transformation = { originX: newOriginX, originY: newOriginY, translateX, translateY, scale: newScale };
-        // console.log(newScale);
-        brush.setScaleFactor(newScale);
-        brush2.setScaleFactor(newScale);
-        brush3.setScaleFactor(newScale);
-
+    <style>
+      body {
+        overflow: hidden;
       }
-    });
 
-    const renderer = ({ minScale, maxScale, element, scaleSensitivity = 10 }) => {
-      const state = {
-        element,
+      #container {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 720px;
+        height: 720px;
+      }
+
+      .area {
+        /* border: 1px dashed black; */
+        height: 100%;
+        width: 100%;
+        position: absolute;
+      }
+    </style>
+
+    <!--[if lt IE 11]>
+      <script src="./input-range-polyfill/input-range-polyfill.js"></script>
+    <![endif]-->
+    <!-- <script src="./js/tinycolor.js"></script>
+  <script src="./js/HSBRect.js"></script> -->
+    <script src="./js/croquis.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.1.1/gsap.min.js"></script>
+
+    <script src="./js/croquispop.js"></script>
+
+    <!-- mejorar este script para la conveniencia del negocio -->
+    <!--[if lt IE 10]>
+      <script></script>
+    <![endif]-->
+    <script>
+      // import {croquispop} from croquispop.js;
+      const hasPositionChanged = ({ pos, prevPos }) => pos !== prevPos;
+
+      const valueInRange = ({ minScale, maxScale, scale }) =>
+        scale <= maxScale && scale >= minScale;
+
+      const getTranslate =
+        ({ minScale, maxScale, scale }) =>
+        ({ pos, prevPos, translate }) =>
+          valueInRange({ minScale, maxScale, scale }) &&
+          hasPositionChanged({ pos, prevPos })
+            ? translate + (pos - prevPos * scale) * (1 - 1 / scale)
+            : translate;
+
+      const getMatrix = ({ scale, translateX, translateY }) =>
+        `matrix(${scale}, 0, 0, ${scale}, ${translateX}, ${translateY})`;
+
+      const getScale = ({
+        scale,
         minScale,
         maxScale,
         scaleSensitivity,
-        transformation: {
-          originX: 0,
-          originY: 0,
-          translateX: 0,
-          translateY: 0,
-          scale: 1
-        },
+        deltaScale,
+      }) => {
+        let newScale = scale + deltaScale / (scaleSensitivity / scale);
+        newScale = Math.max(minScale, Math.min(newScale, maxScale));
+        return [scale, newScale];
       };
-      return Object.assign({}, canZoom(state), canPan(state));
-    };
 
-    const container = document.getElementById("container");
-    const instance = renderer({ scaleSensitivity: 50, minScale: .1, maxScale: 30, element: container.children[0] });
-    container.addEventListener("wheel", (event) => {
-      if (!event.ctrlKey) {
-        return;
-      }
-      event.preventDefault();
-      instance.zoom({
-        deltaScale: Math.sign(event.deltaY) > 0 ? -1 : 1,
-        x: event.pageX,
-        y: event.pageY
+      const pan = ({ state, originX, originY }) => {
+        state.transformation.translateX += originX;
+        state.transformation.translateY += originY;
+        state.element.style.transform = getMatrix({
+          scale: state.transformation.scale,
+          translateX: state.transformation.translateX,
+          translateY: state.transformation.translateY,
+        });
+      };
+
+      const canPan = (state) => ({
+        panBy: ({ originX, originY }) => pan({ state, originX, originY }),
+        panTo: ({ originX, originY, scale }) => {
+          state.transformation.scale = scale;
+          pan({
+            state,
+            originX: originX - state.transformation.translateX,
+            originY: originY - state.transformation.translateY,
+          });
+        },
       });
-    });
-    // container.addEventListener("dblclick", () => {
-    //   instance.panTo({
-    //     originX: 0,
-    //     originY: 0,
-    //     scale: 1,
-    //   });
-    // });
 
-    let shouldHandleKeyDown = true;
-document.addEventListener("keydown", function (event) {
+      const canZoom = (state) => ({
+        zoom: ({ x, y, deltaScale }) => {
+          const { left, top } = state.element.getBoundingClientRect();
+          const { minScale, maxScale, scaleSensitivity } = state;
+          const [scale, newScale] = getScale({
+            scale: state.transformation.scale,
+            deltaScale,
+            minScale,
+            maxScale,
+            scaleSensitivity,
+          });
+          const originX = x - left;
+          const originY = y - top;
+          const newOriginX = originX / scale;
+          const newOriginY = originY / scale;
+          const translate = getTranslate({ scale, minScale, maxScale });
+          const translateX = translate({
+            pos: originX,
+            prevPos: state.transformation.originX,
+            translate: state.transformation.translateX,
+          });
+          const translateY = translate({
+            pos: originY,
+            prevPos: state.transformation.originY,
+            translate: state.transformation.translateY,
+          });
 
-    if (event.ctrlKey) {
-        if (!shouldHandleKeyDown) return;
-        croquisDOMElement.removeEventListener('pointerdown', canvasPointerDown);
-
-        // Handle "down"
-
-        shouldHandleKeyDown = false;
-
-    }
-});
-
-document.addEventListener('keyup', (event) => {
-
-    // As the user releases the Ctrl key, the key is no longer active,
-    // so event.ctrlKey is false.
-    croquisDOMElement.addEventListener('pointerdown', canvasPointerDown);
-    shouldHandleKeyDown = true;
-
-});
-
-
-    function containerPointerDown(event) {
-      setPointerEvent(event);
-      if (!event.ctrlKey) {
-        return;
-      }
-      container.addEventListener('pointermove', containerPointerMove);
-      container.addEventListener('pointerup', containerPointerUp);
-    }
-    // e.pointerType === "pen" ? e.pressure : 1
-    //al mover el puntero 
-    function containerPointerMove(event) {
-      setPointerEvent(event);
-      if (!event.ctrlKey) {
-        return;
-      }
-      event.preventDefault();
-      instance.panBy({
-        originX: event.movementX,
-        originY: event.movementY
+          state.element.style.transformOrigin = `${newOriginX}px ${newOriginY}px`;
+          state.element.style.transform = getMatrix({
+            scale: newScale,
+            translateX,
+            translateY,
+          });
+          state.transformation = {
+            originX: newOriginX,
+            originY: newOriginY,
+            translateX,
+            translateY,
+            scale: newScale,
+          };
+          // console.log(newScale);
+          brush.setScaleFactor(newScale);
+          brush2.setScaleFactor(newScale);
+          brush3.setScaleFactor(newScale);
+        },
       });
-    }
 
-    //encima del canvas 
-    function containerPointerUp(e) {
-      setPointerEvent(e);
-     
-      container.removeEventListener('pointermove', containerPointerMove);
-      container.removeEventListener('pointerup', containerPointerUp);
-    }
- 
-    container.addEventListener('pointerdown', containerPointerDown);
+      const renderer = ({
+        minScale,
+        maxScale,
+        element,
+        scaleSensitivity = 10,
+      }) => {
+        const state = {
+          element,
+          minScale,
+          maxScale,
+          scaleSensitivity,
+          transformation: {
+            originX: 0,
+            originY: 0,
+            translateX: 0,
+            translateY: 0,
+            scale: 1,
+          },
+        };
+        return Object.assign({}, canZoom(state), canPan(state));
+      };
 
+      const container = document.getElementById("container");
+      const instance = renderer({
+        scaleSensitivity: 50,
+        minScale: 0.1,
+        maxScale: 30,
+        element: container.children[0],
+      });
+      container.addEventListener("wheel", (event) => {
+        if (!event.ctrlKey) {
+          return;
+        }
+        event.preventDefault();
+        instance.zoom({
+          deltaScale: Math.sign(event.deltaY) > 0 ? -1 : 1,
+          x: event.pageX,
+          y: event.pageY,
+        });
+      });
+      // container.addEventListener("dblclick", () => {
+      //   instance.panTo({
+      //     originX: 0,
+      //     originY: 0,
+      //     scale: 1,
+      //   });
+      // });
 
+      let shouldHandleKeyDown = true;
+      document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey) {
+          if (!shouldHandleKeyDown) return;
+          croquisDOMElement.removeEventListener(
+            "pointerdown",
+            canvasPointerDown
+          );
 
-    // container.addEventListener("pointermove", (event) => {
-   
-    // })
+          // Handle "down"
 
+          shouldHandleKeyDown = false;
+        }
+      });
 
-  </script>
-  <script>
+      document.addEventListener("keyup", (event) => {
+        // As the user releases the Ctrl key, the key is no longer active,
+        // so event.ctrlKey is false.
+        croquisDOMElement.addEventListener("pointerdown", canvasPointerDown);
+        shouldHandleKeyDown = true;
+      });
 
-let divColorContainer = document.getElementById("colorContainerDiv");
+      function containerPointerDown(event) {
+        // setPointerEvent(event);
+        if (!event.ctrlKey) {
+          return;
+        }
+        container.addEventListener("pointermove", containerPointerMove);
+        container.addEventListener("pointerup", containerPointerUp);
+      }
+      // e.pointerType === "pen" ? e.pressure : 1
+      //al mover el puntero
+      function containerPointerMove(event) {
+        // setPointerEvent(event);
+        if (!event.ctrlKey) {
+          return;
+        }
+        event.preventDefault();
+        instance.panBy({
+          originX: event.movementX,
+          originY: event.movementY,
+        });
+      }
 
-  </script>
+      //encima del canvas
+      function containerPointerUp(e) {
+        // setPointerEvent(e);
 
-</body>
+        container.removeEventListener("pointermove", containerPointerMove);
+        container.removeEventListener("pointerup", containerPointerUp);
+      }
 
+      container.addEventListener("pointerdown", containerPointerDown);
+
+      // container.addEventListener("pointermove", (event) => {
+
+      // })
+    </script>
+  </body>
 </html>
-
-
