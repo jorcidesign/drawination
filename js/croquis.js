@@ -389,6 +389,8 @@ function Croquis(imageDataList, properties) {
         if (render == false)
             dirtyRectDisplayContext.clearRect(0, 0, size.width, size.height);
     };
+
+
     self.createLayerThumbnail = function (index, width, height) {
         index = (index == null) ? layerIndex : index;
         width = (width == null) ? size.width : width;
@@ -492,6 +494,28 @@ function Croquis(imageDataList, properties) {
         var context = getLayerContext(index);
         context.clearRect(0, 0, size.width, size.height);
     };
+
+    self.mirrorCanvas = function (index){
+        index = (index == null) ? layerIndex : index;
+        pushContextUndo(index);
+        var context = getLayerContext(index);
+        var canvasInvert = getLayerCanvas(index);
+        var canvasAux = document.createElement('canvas');
+        canvasAux.width = 720;
+        canvasAux.height = 720;
+        var ctxAux = canvasAux.getContext("2d");
+        // console.log(context);
+        
+        context.translate(canvasInvert.width, 0);
+        context.scale(-1, 1);
+        ctxAux.save()
+        ctxAux.drawImage(canvasInvert, 0, 0);   
+      
+        context.clearRect(0, 0, size.width, size.height);
+        context.drawImage(canvasAux,0,0);
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        canvasAux.remove();
+    }
     self.fillLayer = function (fillColor, index) {
         index = (index == null) ? layerIndex : index;
         pushContextUndo(index);
@@ -1389,7 +1413,7 @@ Croquis.Brush = function () {
         lastX = prevX = x;
         lastY = prevY = y;
         prevScale = scale;
-        // console.log(x,y,scale);
+        // console.log(x,y);
 
 
     }

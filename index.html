@@ -37,12 +37,27 @@
       <header
         class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3"
       >
-        <a
-          class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-decoration-none link-light"
-          href="#"
-          id="clear-button"
-          >Erase all</a
-        >
+        <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0">
+          <a
+            class="text-decoration-none link-light px-2"
+            href="#"
+            id="clear-button"
+            >Erase all</a
+          >
+
+          <ul class="nav">
+            <li class="nav-item">
+              <a id="flipCanvas" href="#" class="nav-link link-light px-2">
+                <img
+                  src="./assets/flip.png"
+                  alt="flip-icon"
+                  style="width: 17px"
+                  crossorigin="anonymous"
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
 
         <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <a class="navbar-brand">
@@ -79,7 +94,11 @@
       <div class="d-flex flex-wrap align-items-center container">
         <ul class="nav">
           <li class="nav-item">
-            <a id="undoButton" href="#" class="nav-link link-light px-2" aria-current="page"
+            <a
+              id="undoButton"
+              href="#"
+              class="nav-link link-light px-2"
+              aria-current="page"
               ><i class="fa-solid fa-rotate-left"></i
             ></a>
           </li>
@@ -330,7 +349,7 @@
           brush3.setScaleFactor(newScale);
         },
       });
-     
+
       const renderer = ({
         minScale,
         maxScale,
@@ -372,7 +391,7 @@
         });
       });
       let zoomIn = document.getElementById("zoomInButton");
- 
+
       zoomIn.addEventListener("pointerdown", () => {
         event.preventDefault();
         instance.zoom({
@@ -383,7 +402,7 @@
       });
 
       let zoomOut = document.getElementById("zoomOutButton");
- 
+
       zoomOut.addEventListener("pointerdown", () => {
         event.preventDefault();
         instance.zoom({

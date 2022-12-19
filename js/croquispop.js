@@ -485,20 +485,24 @@ downloadButton.onclick = function () {
   let canvasUrl = can3.toDataURL("image/jpeg", 0.8);
   const createEl = document.createElement("a");
   createEl.href = canvasUrl;
-  createEl.download = "MySketch";
+  createEl.download = "MySketch.jpg";
   createEl.click();
   createEl.remove();
 };
 
+let flipCanvas = document.getElementById("flipCanvas");
 function mirrorCanvas() {
-  const canvasDownload = document.querySelectorAll(".croquis-layer-canvas");
-  let can2 = canvasDownload.item(0);
-  let ctx2 = can2.getContext("2d");
-  ctx2.translate(can2.width, 0);
-  ctx2.scale(-1, 1);
+  // const canvasDownload = document.querySelectorAll(".croquis-layer-canvas");
+  // let can2 = canvasDownload.item(0);
+  // const canvasDownload2 = document.querySelectorAll(".croquis-painting-canvas");
+  // let can3 = canvasDownload2.item(0);
+  // let ctx2 = can2.getContext("2d");
+  // let ctx3 = can3.getContext("2d");
+  croquis.mirrorCanvas();
+  // ctx2.scale(-1, 1);
   // ctx2.drawImage(, 0, 0);
 }
-
+flipCanvas.addEventListener('pointerdown',mirrorCanvas);
 // document.addEventListener('DOMContentLoaded', function () {
 //     let brushHard = new Image();
 //     brushHard.crossOrigin = "Anonymous";
