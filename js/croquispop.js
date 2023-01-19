@@ -11,7 +11,10 @@ croquis.selectLayer(0);
 croquis.unlockHistory();
 croquis.setToolStabilizeLevel(10);
 croquis.setToolStabilizeWeight(0.35);
+croquis.initRender();
 // croquis.setPaintingOpacity(1);
+
+
 
 let currentToolBrush = {
   name: "brush2",
@@ -161,8 +164,13 @@ function canvasPointerUp(e) {
     setTimeout(function () {
       croquis.setPaintingKnockout(selectEraserCheckbox.checked);
     }, 30); //timeout should be longer than 20 (knockoutTickInterval in Croquis)
+  
   document.removeEventListener("pointermove", canvasPointerMove);
   document.removeEventListener("pointerup", canvasPointerUp);
+  setTimeout(() => {
+    croquis.saveCanvas();
+  }, 100);
+ 
 }
 function getRelativePosition(absoluteX, absoluteY) {
   var rect = croquisDOMElement.getBoundingClientRect();
@@ -433,11 +441,13 @@ function documentKeyDown(e) {
 let undoButton = document.getElementById("undoButton");
 undoButton.addEventListener("pointerdown", () => {
   croquis.undo();
+  croquis.saveCanvas();
 });
 
 let redoButton = document.getElementById("redoButton");
 redoButton.addEventListener("pointerdown", () => {
   croquis.redo();
+  croquis.saveCanvas();
 });
 
 
@@ -510,3 +520,13 @@ flipCanvas.addEventListener('pointerdown',mirrorCanvas);
 //     brushHard.src = 'https://drawination.vercel.app/assets/brushHard.png'
 //     brush3.setImage(brushHard);
 //   }, false);
+
+//Local Storage
+// function saveCanvas() {
+//   const canvasDownload = document.querySelectorAll(".croquis-layer-canvas"); //obtener las canvas layers del croquis
+//   // let can = canvasDownload.item(0);//layer 1 (whiteBackground)
+//   let can2 = canvasDownload.item(0); //layer 2 (painting)
+//   localStorage.setItem("myCanvas", can2.toDataURL());
+// }
+
+

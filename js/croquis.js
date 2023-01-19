@@ -495,6 +495,31 @@ function Croquis(imageDataList, properties) {
         context.clearRect(0, 0, size.width, size.height);
     };
 
+    self.saveCanvas = function (index){
+        index = (index == null) ? layerIndex : index;
+        
+        var canvas = getLayerCanvas(index);
+        localStorage.setItem("myCanvas", canvas.toDataURL());
+    }
+    self.initRender = function (index){
+        index = (index == null) ? layerIndex : index;
+        
+        var context = getLayerContext(index);
+        // var canvas = getLayerCanvas(index);
+        const dataURL = localStorage.getItem("myCanvas");
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.alt = "savedCanvas";
+        img.src = dataURL;
+        // console.log(img);
+        img.onload = function() {
+            context.drawImage(img, 0, 0);
+          };
+       
+
+    }
+
+
     self.mirrorCanvas = function (index){
         index = (index == null) ? layerIndex : index;
         pushContextUndo(index);
